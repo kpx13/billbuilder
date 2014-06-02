@@ -1,0 +1,350 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block js %}
+    <!-- fuelux -->
+    <script src="/static/js/fuelux/fuelux.js"></script>
+    <script src="/static/js/libs/underscore-min.js"></script>
+    <!-- datatables -->
+    <script src="/static/js/datatables/jquery.dataTables.min.js"></script>
+    <!-- Sparkline Chart -->
+    <script src="/static/js/charts/sparkline/jquery.sparkline.min.js"></script>
+    <!-- Easy Pie Chart -->
+    <script src="/static/js/charts/easypiechart/jquery.easy-pie-chart.js"></script>
+{% endblock %}
+    
+{% block body %}
+<section class="hbox stretch">
+    
+<!--         <aside class="bg-light aside b-r" id="nav"> -->
+    <aside class="aside-sm nav-vertical only-icon bg-info lt " id="nav">
+        {% include 'main_panel.html' %}
+    </aside>
+    <!-- .vbox -->
+    <section id="content">
+        <section class="vbox">
+            
+            <section class="scrollable">
+                <section class="hbox stretch">
+                    <aside class="aside-lg bg-light lter b-r">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                    <div class="clearfix m-b">
+                                        <section class="panel">
+                                            <img src='/media/avatars/{{ user.avatar }}' style='width: 100%' />
+                                        </section>
+                                        <div class="clear">
+                                            <div class="h3 m-t-xs m-b-xs"><i class='fa fa-{{ user.male }}'></i> {{ user.name }}<small class="text-muted">, 23 года</small></div>
+                                            <small class="text-muted"><i class="fa fa-map-marker"></i> {{ user.city }}</small>
+                                        </div>                
+                                    </div>
+                                    <div class="panel wrapper">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">2,035</span>
+                                                    <small class="text-muted">Социальный рейтинг</small>
+                                                </a>
+                                            </div>
+                                            
+                                            <div class="col-xs-4">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">55</span>
+                                                    <small class="text-muted">Личный рейтинг</small>
+                                                </a>
+                                            </div>
+                                            
+                                            <div class="col-xs-4">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">245</span>
+                                                    <small class="text-muted">Читателя</small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group btn-group-justified m-b">
+                                        <a class="btn btn-success btn-rounded" data-toggle="button">
+                                            <i class="fa fa-bookmark-o text"> Подписаться</i>
+                                            <i class="fa fa-bookmark text-active"> Отписаться</i> 
+                                            
+                                        </a>
+                                        <a class="btn btn-info btn-rounded">
+                                            <i class="fa fa-envelope-o"> Написать</i>
+                                        </a>
+                                    </div>
+                                    
+                                    <div>
+                                        <small class="text-uc text-xs text-muted">Род занятий</small>
+                                        <p>{{ user.career }}</p>
+                                        <small class="text-uc text-xs text-muted">Обо мне</small>
+                                        <p>{{ user.about }}</p>
+                                        <div class="line"></div>
+                                        <small class="text-uc text-xs text-muted">Ссылки</small>
+                                        <p class="m-t-sm">
+                                            {% for k, v in user.links.iteritems() %}
+                                                {% if k =='google_plus' %}
+                                                    <a href="{{ v }}" class="btn btn-rounded btn-gplus btn-icon"><i class="fa fa-google-plus"></i></a>
+                                                {% else %}
+                                                    <a href="{{ v }}" class="btn btn-rounded btn-{{ k }} btn-icon" target='_blank'><i class="fa fa-{{ k }}"></i></a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                    
+                    <aside class="col-lg-4 bg-white">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                    
+                                    <section class="panel">
+                                        <form>
+                                            <textarea class="form-control no-border" rows="3" placeholder="Есть, что рассказать?"></textarea>
+                                        </form>
+                                        <footer class="panel-footer bg-light lter">
+                                            <button class="btn btn-info btn-xs pull-right">Отправить</button>
+                                            <br />
+                                        </footer>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-light lter">
+                                        <section class="panel-body">
+                                            <p>Здесь будет пост</p>
+                                        </section>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-success lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-light lter">
+                                        <section class="panel-body">
+                                            <p>И здесь</p>
+                                        </section>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-warning lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-info lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-danger lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-primary lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                    
+                
+                    <aside class="col-lg-4 b-l">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                
+                                    <section class="panel">
+                    <header class="panel-heading">
+                        <span class="label bg-danger pull-right">4 осталось</span> 
+                        <span class="label bg-success pull-right">14 выполнено</span>
+                      <i class="fa fa-crosshairs"></i> Цели
+                    </header>
+                    <table class="table table-striped m-b-none text-sm">
+                      <tbody>
+                        <tr>                    
+                          <td width='40%'>
+                            <div class="progress progress-sm progress-striped m-t-xs m-b-none">
+                              <div class="progress-bar progress-bar-success" data-toggle="tooltip" data-original-title="80%" style="width: 80%"></div>
+                            </div>
+                          </td>
+                          <td><a href='#'>Научиться нормально кодить</a></td>
+                          <td class="text-right" width='30'>
+                            <div class="btn-group">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil"></i></a>
+                              <ul class="dropdown-menu pull-right">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>                    
+                          <td>
+                            <div class="progress progress-sm progress-striped m-t-xs m-b-none">
+                              <div class="progress-bar progress-bar-info" data-toggle="tooltip" data-original-title="40%" style="width: 40%"></div>
+                            </div>
+                          </td>
+                          <td><a href='#'>Выучить русский язык</a></td>
+                          <td class="text-right">
+                            <div class="btn-group">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil"></i></a>
+                              <ul class="dropdown-menu pull-right">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>                    
+                          <td>
+                            <div class="progress progress-sm m-t-xs m-b-none">
+                              <div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-original-title="20%" style="width: 20%"></div>
+                            </div>
+                          </td>
+                          <td><a href='#'>Заработать денег</a></td>
+                          <td class="text-right">
+                            <div class="btn-group">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil"></i></a>
+                              <ul class="dropdown-menu pull-right">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>                    
+                          <td>
+                            <div class="progress progress-sm m-t-xs m-b-none">
+                              <div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-original-title="15%" style="width: 15%"></div>
+                            </div>
+                          </td>
+                          <td><a href='#'>Спасти мир</a></td>
+                          <td class="text-right">
+                            <div class="btn-group">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil"></i></a>
+                              <ul class="dropdown-menu pull-right">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section>
+                                
+                                   
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            <span class="label bg-success pull-right">7 записей</span>
+                                            <i class="fa fa-bullhorn"></i> Бортовой Журнал
+                                        </header>
+                                        <section class='panel-body'>
+                                            <p>
+                                                Здесь будет контент.
+                                            </p>
+                                        </section>
+                                    </section>
+                                    
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            <i class="fa fa-flag-checkered"></i> Гонки
+                                        </header>
+                                        <section class='panel-body'>
+                                            <p>
+                                                Здесь будет контент.
+                                            </p>
+                                        </section>
+                                    </section>
+                                    
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            <i class="fa fa-road"></i> Гоночные Клубы
+                                        </header>
+                                        <section class='panel-body'>
+                                            <p>
+                                                Здесь будет контент.
+                                            </p>
+                                        </section>
+                                    </section>
+                                    
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            <i class="fa fa-briefcase"></i> Библиотека
+                                        </header>
+                                        <section class='panel-body'>
+                                            <p>
+                                                Здесь будет контент.
+                                            </p>
+                                        </section>
+                                    </section>
+                                </div>
+                            </section>
+                        </section>              
+                    </aside>
+                    
+                </section>
+            </section>
+        </section>
+    </section>
+</section>
+{% endblock %}

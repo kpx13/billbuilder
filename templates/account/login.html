@@ -1,0 +1,48 @@
+{% extends 'account/base_account.html' %}
+
+{% block title %}Вход | LifeRacing{% endblock %}
+
+{% block js %}
+    <script src="/static/js/jstz-1.0.4.min.js"></script>
+    <script>
+    
+    function pad(number, length){
+    var str = "" + number
+    while (str.length < length) {
+        str = '0'+str
+    }
+    return str
+}
+
+var offset = new Date().getTimezoneOffset()
+offset = ((offset<0? '+':'-')+ // Note the reversed sign!
+          pad(parseInt(Math.abs(offset/60)), 2)+ ':' +
+          pad(Math.abs(offset%60), 2))
+    
+        $('#timezone').val(jstz.determine().name());
+        tz = new Date().getTimezoneOffset();
+        console.log(tz);
+        console.log(offset);
+    </script>
+{% endblock %}
+
+{% block content %}
+    <header class="panel-heading text-center">
+        Вход
+    </header>
+    <form class="panel-body"  role="form" method="POST">
+        {% include "account/partials/login_form.html" %}
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> Оставаться в системе
+            </label>
+        </div>
+        <a href="#" class="pull-right m-t-xs"><small>Забыли пароль?</small></a>
+        <button type="submit" class="btn btn-info">Войти</button>
+        <div class="line line-dashed"></div>
+        <p class="text-muted text-center"><small>У Вас есть аккаунт?</small></p>
+        <a href="/account/register" class="btn btn-white btn-block">Создать аккаунт</a>
+        
+        <input type="hidden" name='timezone' id='timezone' />
+    </form>
+{% endblock %}

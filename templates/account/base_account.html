@@ -1,0 +1,26 @@
+{% extends 'todo_base.html' %}
+
+{% block title %}Аккаунт{% endblock %}
+
+{% block body %}
+    <section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+        <div class="row m-n">
+            <div class="col-md-4 col-md-offset-4 m-t-lg">
+                <section class="panel">
+                <a href='/'><img src='/static/images/LR_.jpg' style='width: 100%' /></a>
+                    {% block content %}
+                    {% endblock %}
+                </section>
+            </div>
+        </div>
+    </section>
+    <!-- footer -->
+    <footer id="footer">
+        <div class="text-center padder clearfix">
+            <p>
+                <small>LifeRacing<br>&copy; 2014</small>
+            </p>
+        </div>
+    </footer>
+    <!-- / footer -->
+{% endblock %}

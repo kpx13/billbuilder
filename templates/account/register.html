@@ -1,0 +1,22 @@
+{% extends 'account/base_account.html' %}
+
+{% block title %}Регистрация | LifeRacing{% endblock %}
+
+{% block content %}
+    <header class="panel-heading text-center">
+        Регистрация
+    </header>
+    <form class="panel-body"  role="form" method="POST">
+        {% include "account/partials/register_form.html" %}
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> Согласен с <a href="#">пользовательским соглашением</a>.
+            </label>
+        </div>
+        <button type="submit" class="btn btn-info">Зарегистрироваться</button>
+        <div class="line line-dashed"></div>
+        <p class="text-muted text-center"><small>У Вас уже есть аккаунт?</small></p>
+        <a href="/account/login" class="btn btn-white btn-block">Войти</a>
+    </form>
+{% endblock %}
+

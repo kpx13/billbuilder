@@ -1,0 +1,481 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block js %}
+    <!-- fuelux -->
+    <script src="/static/js/fuelux/fuelux.js"></script>
+    <script src="/static/js/libs/underscore-min.js"></script>
+    <!-- datatables -->
+    <script src="/static/js/datatables/jquery.dataTables.min.js"></script>
+    <!-- Sparkline Chart -->
+    <script src="/static/js/charts/sparkline/jquery.sparkline.min.js"></script>
+    <!-- Easy Pie Chart -->
+    <script src="/static/js/charts/easypiechart/jquery.easy-pie-chart.js"></script>
+{% endblock %}
+    
+{% block body %}
+<section class="hbox stretch">
+    
+<!--         <aside class="bg-light aside b-r" id="nav"> -->
+    <aside class="aside-sm nav-vertical only-icon bg-info lt " id="nav">
+        {% include 'main_panel.html' %}
+    </aside>
+    <!-- .vbox -->
+    <section id="content">
+        <section class="vbox">
+            <header class="header bg-white b-b">
+                <p>Главная страница проекта LifeRacing (Тестовая)</p>
+            </header>
+            <section class="scrollable">
+                <section class="hbox stretch">
+                    <aside class="aside-lg bg-light lter b-r">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                    <div class="clearfix m-b">
+                                        <a href="#" class="pull-left thumb m-r">
+                                            <img src="/static/images/avatar.jpg" class="img-circle">
+                                        </a>
+                                        <div class="clear">
+                                            <div class="h3 m-t-xs m-b-xs">John.Smith</div>
+                                            <small class="text-muted"><i class="fa fa-map-marker"></i> London, UK</small>
+                                        </div>                
+                                    </div>
+                                    <div class="panel wrapper">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">245</span>
+                                                    <small class="text-muted">Followers</small>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">55</span>
+                                                    <small class="text-muted">Following</small>
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">2,035</span>
+                                                    <small class="text-muted">Tweets</small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group btn-group-justified m-b">
+                                        <a class="btn btn-success btn-rounded" data-toggle="button">
+                                            <i class="fa fa-comment-o"></i> Профиль
+                                        </a>
+                                        <a class="btn btn-info btn-rounded">
+                                            <i class="fa fa-comment-o"></i> Выйти
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <small class="text-uc text-xs text-muted">about me</small>
+                                        <p>Artist</p>
+                                        <small class="text-uc text-xs text-muted">info</small>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
+                                        <div class="line"></div>
+                                        <small class="text-uc text-xs text-muted">connection</small>
+                                        <p class="m-t-sm">
+                                            <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i class="fa fa-twitter"></i></a>
+                                            <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i class="fa fa-facebook"></i></a>
+                                            <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i class="fa fa-google-plus"></i></a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                    
+                    <aside class="bg-white">
+                        <section class="vbox">
+                            <header class="header bg-light bg-gradient">
+                                <ul class="nav nav-tabs nav-white">
+                                    <li class="active"><a href="#todo" data-toggle="tab">Шаблонные страницы</a></li>
+                                    <li class=""><a href="#accounts" data-toggle="tab">Аккаунты</a></li>
+                                    <li class=""><a href="#db" data-toggle="tab">База Данных</a></li>
+                                    <li class=""><a href="#library" data-toggle="tab">Библиотека</a></li>
+                                </ul>
+                            </header>
+                            
+                            <section class="scrollable">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="todo">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            <li class="list-group-item">                     
+                                                <section class="panel clearfix bg-danger lter">
+                                                    <div class="panel-body">
+                                                        Здесь находятся самые интересные шаблонные страницы.
+                                                    </div>
+                                                </section>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/docs.html" target='_blank' class="clear">
+                                                    <strong class="block">docs.html</strong>
+                                                    <small>Документация</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/icons.html" target='_blank' class="clear">
+                                                    <strong class="block">icons.html</strong>
+                                                    <small>Иконки</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/buttons.html" target='_blank' class="clear">
+                                                    <strong class="block">buttons.html</strong>
+                                                    <small>Кнопки</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/grid.html" target='_blank' class="clear">
+                                                    <strong class="block">grid.html</strong>
+                                                    <small>Сетка. Компоновка</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/grid.html" target='_blank' class="clear">
+                                                    <strong class="block">components.html</strong>
+                                                    <small>Компоненты. Прогресс бары, алерты, модальные окна и т.д.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/list.html" target='_blank' class="clear">
+                                                    <strong class="block">list.html</strong>
+                                                    <small>Списки</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/table.html" target='_blank' class="clear">
+                                                    <strong class="block">table.html</strong>
+                                                    <small>Таблицы</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/form.html" target='_blank' class="clear">
+                                                    <strong class="block">form.html</strong>
+                                                    <small>Формы. Компоненты для форм.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/calendar.html" target='_blank' class="clear">
+                                                    <strong class="block">calendar.html</strong>
+                                                    <small>Календарь</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/portlet.html" target='_blank' class="clear">
+                                                    <strong class="block">portlet.html</strong>
+                                                    <small>Блоки. Перетаскивание.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/index.html" target='_blank' class="clear">
+                                                    <strong class="block">index.html</strong>
+                                                    <small>Здесь есть различные варианты цветного оформления левой страницы и компоновка интересная</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/dashboard.html" target='_blank' class="clear">
+                                                    <strong class="block">dashboard.html</strong>
+                                                    <small>Страница собранная. Рабочий стол.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/dashboard-1.html" target='_blank' class="clear">
+                                                    <strong class="block">dashboard-1.html</strong>
+                                                    <small>Страница собранная. Проект.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/master.html" target='_blank' class="clear">
+                                                    <strong class="block">master.html</strong>
+                                                    <small>Страница собранная. База данных.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/profile.html" target='_blank' class="clear">
+                                                    <strong class="block">profile.html</strong>
+                                                    <small>Страница собранная. Профиль.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/dashboard-1.html" target='_blank' class="clear">
+                                                    <strong class="block">dashboard-1.html</strong>
+                                                    <small>Страница собранная. Проект.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/blog.html" target='_blank' class="clear">
+                                                    <strong class="block">blog.html</strong>
+                                                    <small>Страница собранная. Блог.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/mail.html" target='_blank' class="clear">
+                                                    <strong class="block">mail.html</strong>
+                                                    <small>Страница собранная. Почта.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/landing.html" target='_blank' class="clear">
+                                                    <strong class="block">landing.html</strong>
+                                                    <small>Страница собранная. Лендинг.</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/404.html" target='_blank' class="clear">
+                                                    <strong class="block">404.html</strong>
+                                                    <small>Страница 404</small>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="tab-pane" id="accounts">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            <li class="list-group-item">                     
+                                                <section class="panel clearfix bg-success lter">
+                                                    <div class="panel-body">
+                                                        Страницы действий с аккаунтами.
+                                                    </div>
+                                                </section>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/account/register" target='_blank' class="clear">
+                                                    <strong class="block">Регистрация</strong>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/account/login" target='_blank' class="clear">
+                                                    <strong class="block">Вход</strong>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/account/logout" target='_blank' class="clear">
+                                                    <strong class="block">Выход</strong>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/user/profile" target='_blank' class="clear">
+                                                    <strong class="block">Профиль</strong>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="tab-pane" id="db">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            <li class="list-group-item">                     
+                                                <section class="panel clearfix bg-warning lter">
+                                                    <div class="panel-body">
+                                                        Здесь работа с БД низкоуровневая. 
+                                                    </div>
+                                                </section>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/db" target='_blank' class="clear">
+                                                    <strong class="block">Список таблиц</strong>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="tab-pane" id="library">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            <li class="list-group-item">                     
+                                                <section class="panel clearfix bg-info lter">
+                                                    <div class="panel-body">
+                                                        Библиотека. Интерфейс отличается в зависимости от того, зарегистрированный пользователь или нет.
+                                                    </div>
+                                                </section>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <a href="/library" target='_blank' class="clear">
+                                                    <strong class="block">Список записей</strong>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                
+                    <aside class="col-lg-4 b-l">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                    <section class="panel">
+                                        <img src='/static/images/LR_.jpg' style='width: 100%' />
+                                    </section>
+                                    <section class="panel">
+                                        <h4 class="font-thin padder">Иконки</h4>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <strong class="block">Модули</strong>
+                                                <p>
+                                                    <i class="fa fa-tachometer" style="font-size:32px;"></i> Приборная панель fa-tachometer <br />
+                                                    <i class="fa fa-crosshairs" style="font-size:32px;"></i> Цели fa-crosshairs <br />
+                                                    <i class="fa fa-tasks" style="font-size:32px;"></i> Задачи fa-tasks <br />
+                                                    <i class="fa fa-calendar" style="font-size:32px;"></i> Календарь fa-calendar <br />
+                                                    <i class="fa fa-flag-checkered" style="font-size:32px;"></i> Гонки fa-flag-checkered <br />
+                                                    <i class="fa fa-road" style="font-size:32px;"></i> Гоночный клуб fa-road <br />
+                                                    <i class="fa fa-trophy" style="font-size:32px;"></i> Чемпионат fa-trophy <br />
+                                                    <i class="fa fa-bullhorn" style="font-size:32px;"></i> Бортовой журнал fa-fullhorn <br />
+                                                    <i class="fa fa-briefcase" style="font-size:32px;"></i> Библиотека fa-briefcase <br />
+                                                    <i class="fa fa-eye" style="font-size:32px;"></i> Штурманство fa-eye <br />
+                                                    <i class="fa fa-wrench" style="font-size:32px;"></i> Сервис fa-wrench <br />
+                                                    <i class="fa fa-envelope" style="font-size:32px;"></i> Почта fa-envelope <br />
+                                                </p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong class="block">Управление</strong>
+                                                <p>
+                                                    <i class="fa fa-bookmark" style="font-size:32px;"></i> fa-bookmark Подписаться <br />
+                                                    <i class="fa fa-bookmark-o" style="font-size:32px;"></i> fa-bookmark-o Отписаться <br />
+                                                    <i class="fa fa-envelope" style="font-size:32px;"></i> fa-envelope <br />
+                                                    <i class="fa fa-envelope-o" style="font-size:32px;"></i> fa-envelope-o <br />
+                                                    <i class="fa fa-bars" style="font-size:32px;"></i> fa-bars <br />
+                                                    <i class="fa fa-bell-o" style="font-size:32px;"></i> fa-bell-o <br />
+                                                    <i class="fa fa-calendar" style="font-size:32px;"></i> fa-calendar <br />
+                                                    <i class="fa fa-calendar-o" style="font-size:32px;"></i> fa-calendar-o <br />
+                                                    <i class="fa fa-check-square-o" style="font-size:32px;"></i> fa-check-square-o <br />
+                                                    <i class="fa fa-clock-o" style="font-size:32px;"></i> fa-clock-o <br />
+                                                    <i class="fa fa-cogs" style="font-size:32px;"></i> fa-cogs <br />
+                                                    <i class="fa fa-cog" style="font-size:32px;"></i> fa-cog <br />
+                                                    <i class="fa fa-comment-o" style="font-size:32px;"></i> fa-comment-o <br />
+                                                    <i class="fa fa-comments-o" style="font-size:32px;"></i> fa-comments-o <br />
+                                                    <i class="fa fa-credit-card" style="font-size:32px;"></i> fa-credit-card <br />
+                                                    <i class="fa fa-download" style="font-size:32px;"></i> fa-download <br />
+                                                    <i class="fa fa-exclamation-triangle" style="font-size:32px;"></i> fa-exclamation-triangle <br />
+                                                    <i class="fa fa-external-link" style="font-size:32px;"></i> fa-external-link <br />
+                                                    <i class="fa fa-filter" style="font-size:32px;"></i> fa-filter <br />
+                                                    <i class="fa fa-female" style="font-size:32px;"></i> fa-female <br />
+                                                    <i class="fa fa-male" style="font-size:32px;"></i> fa-male <br />
+                                                    <i class="fa fa-flag" style="font-size:32px;"></i> fa-flag <br />
+                                                    <i class="fa fa-flag-o" style="font-size:32px;"></i> fa-flag-o <br />
+                                                    <i class="fa fa-globe" style="font-size:32px;"></i> fa-globe <br />
+                                                    <i class="fa fa-info" style="font-size:32px;"></i> fa-info <br />
+                                                    <i class="fa fa-lock" style="font-size:32px;"></i> fa-lock <br />
+                                                    <i class="fa fa-unlock" style="font-size:32px;"></i> fa-unlock <br />
+                                                    <i class="fa fa-tags" style="font-size:32px;"></i> fa-tags <br />
+                                                    <i class="fa fa-plus" style="font-size:32px;"></i> fa-plus <br />
+                                                    <i class="fa fa-times" style="font-size:32px;"></i> fa-times <br />
+                                                    <i class="fa fa-ban" style="font-size:32px;"></i> fa-ban <br />
+                                                    <i class="fa fa-edit" style="font-size:32px;"></i> fa-edit <br />
+                                                    <i class="fa fa-pencil" style="font-size:32px;"></i> fa-pencil <br />
+                                                    <i class="fa fa-trash-o" style="font-size:32px;"></i> fa-trash-o <br />
+                                                    <i class="fa fa-thumbs-up" style="font-size:32px;"></i> fa-thumbs-up <br />
+                                                    <i class="fa fa-thumbs-down" style="font-size:32px;"></i> fa-thumbs-down <br />
+                                                </p>
+                                            </li>
+                                            <li class="list-group-item">                     
+                                                <strong class="block">Категории</strong>
+                                                <p>
+                                                    <i class="fa fa-lightbulb-o" style="font-size:32px;"></i> fa-lightbulb-o
+                                                    <i class="fa fa-money" style="font-size:32px;"></i> fa-money
+                                                    <i class="fa fa-medkit" style="font-size:32px;"></i> fa-medkit
+                                                    <i class="fa fa-heart" style="font-size:32px;"></i> fa-heart
+                                                    <i class="fa fa-camera" style="font-size:32px;"></i> fa-camera
+                                                    <i class="fa fa-users" style="font-size:32px;"></i> fa-users
+                                                    <i class="fa fa-globe" style="font-size:32px;"></i> fa-globe
+                                                    <i class="fa fa-home" style="font-size:32px;"></i> fa-home
+                                                    <i class="fa fa-puzzle-piece" style="font-size:32px;"></i> fa-puzzle-piece
+                                                    <i class="fa fa-smile-o" style="font-size:32px;"></i> fa-smile-0
+                                                    <i class="fa fa-plane" style="font-size:32px;"></i> fa-plane
+                                                </p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong class="block">Социальные сети</strong>
+                                                <p>
+                                                    <i class="fa fa-twitter" style="font-size:32px;"></i> fa-twitter
+                                                    <i class="fa fa-youtube" style="font-size:32px;"></i> fa-youtube
+                                                    <i class="fa fa-instagram" style="font-size:32px;"></i> fa-instagram
+                                                    <i class="fa fa-linkedin" style="font-size:32px;"></i> fa-linkedin
+                                                    <i class="fa fa-google-plus" style="font-size:32px;"></i> fa-google-plus
+                                                    <i class="fa fa-facebook" style="font-size:32px;"></i> fa-facebook
+                                                    <i class="fa fa-skype" style="font-size:32px;"></i> fa-skype
+                                                    <i class="fa fa-vk" style="font-size:32px;"></i> fa-vk
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                    <section class="panel clearfix bg-info lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-success lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-warning lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-danger lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    
+                                    <section class="panel clearfix bg-primary lter">
+                                        <div class="panel-body">
+                                            <a href="#" class="thumb pull-left m-r">
+                                                <img src="/static/images/avatar.jpg" class="img-circle">
+                                            </a>
+                                            <div class="clear">
+                                                <a href="#" class="text-info">@Mike Mcalidek <i class="fa fa-twitter"></i></a>
+                                                <small class="block text-muted">2,415 followers / 225 tweets</small>
+                                                <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </section>
+                        </section>              
+                    </aside>
+                    
+                </section>
+            </section>
+        </section>
+    </section>
+</section>
+{% endblock %}

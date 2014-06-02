@@ -1,0 +1,16 @@
+MongoLite==1.5
+pymongo==2.5.2
+tornado==3.1
+wsgiref==0.1.2
+logging==0.4.9.6
+pycket==0.3.0
+python-memcached==1.53
+Pillow==2.1.0
+pytils==0.2.3
+python-dateutil==2.1
+Jinja2==2.7.1
+-e git://github.com/st4lk/schematics.git@nested_compound#egg=schematics-dev
+WTForms==1.0.5
+nose==1.3.3
+coverage==3.7.1
+pylint
