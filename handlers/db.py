@@ -175,10 +175,10 @@ def account_create_post(self):
 
 
 HANDLERS = [
-                {'model': RacerDB, 'form': None},
+                {'model': EmailSettingsDB, 'form': None},
                 {'model': Counter, 'form': None},
                 {'model': UserDB, 'form': None},
-                {'model': UserInfoDB, 'form': None},
+                {'model': RequisitesDB, 'form': None},
                 {'model': AccountDB, 'form': RegisterForm, 'override': {'CreateHandler': {'post': account_create_post}}},
             ]
 

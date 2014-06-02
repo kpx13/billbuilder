@@ -7,8 +7,8 @@ from jinja2 import Environment, FileSystemLoader
 
 app_options = {
     "dev" : {
-        'db_name': 'lr_dev',
-        'log_db_name': 'log_lr_dev',
+        'db_name': 'bb_dev',
+        'log_db_name': 'log_bb_dev',
         'pycket' : {
                 'engine': 'memcached',
                 'storage': {
@@ -20,13 +20,9 @@ app_options = {
             },
     },
 
-    "prod" : {
-        'db_name': 'lr_prod',
-        'log_db_name': 'log_lr_prod',
-    },
     "test": {
-        'db_name': 'lr_test',
-        'log_db_name': 'log_lr_test',
+        'db_name': 'bb_test',
+        'log_db_name': 'log_bb_test',
         'pycket' : {
                 'engine': 'memcached',
                 'storage': {

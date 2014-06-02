@@ -3,7 +3,9 @@
 from base import connection, BaseDocument
 
 MODULES = ['user',
-           'racer',]
+           'bill',
+           'template',
+           'task']
 
 @connection.register
 class Counter(BaseDocument):

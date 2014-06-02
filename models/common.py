@@ -4,18 +4,30 @@ import json
 from bson import json_util
 
 from account import AccountDB
+from bill import BillDB
+from contactor import ContactorDB
+from content import ContentDB
+from counter import Counter 
+from emailsettings import EmailSettingsDB
+from periodic import PeriodicDB
+from requisites import RequisitesDB
+from task import TaskDB
+from template import TemplateDB
 from user import UserDB
-from racer import RacerDB
-from counter import Counter
-from userinfo import UserInfoDB
 
 MODULES_ALL = [ # Порядок таков: если модуль А зависит от модуля Б, то Б идёт первым в списке. 
                 # Здесь должны быть перечислены ВСЕ модули, имеющие базу!!!
                 Counter,
-                AccountDB,
+                RequisitesDB,
+                EmailSettingsDB,
                 UserDB,
-                UserInfoDB,
-                RacerDB,
+                AccountDB,
+                ContactorDB,
+                PeriodicDB,
+                ContentDB,
+                TemplateDB,
+                TaskDB,
+                BillDB,
                ]
 
 def dump(module, path='dump'):

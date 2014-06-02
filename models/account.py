@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 import datetime
 import hashlib
 
-from base import connection, BaseDocument
+from base import connection, BaseDocument, db_bool_repr
 from user import UserDB
 
 
@@ -93,10 +93,7 @@ class AccountDB(BaseDocument):
     
     @property
     def db_is_active(self):
-        if self['user']:
-            return """<i class="fa fa-check text-success text"></i>"""
-        else:
-            return """<i class="fa fa-times text-danger text"></i>"""
+        return db_bool_repr(self['user'])
     
     @property
     def db_userlink(self):

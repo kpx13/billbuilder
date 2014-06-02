@@ -2,8 +2,8 @@
 
 import unittest
 
-from models.racer import RacerDB
-from models.userinfo import UserInfoDB
+from models.emailsettings import RacerDB
+from models.requisites import RequisitesDB
 from models.user import UserDB
 from models.account import AccountDB
 
@@ -21,9 +21,9 @@ class UserTest(unittest.TestCase):
     
     def test_ri(self):
         for curr in UserDB.get_cursor(['rating', 'info']):
-            assert UserInfoDB.exists(curr['info'])
+            assert RequisitesDB.exists(curr['info'])
             
     def test_info(self):
-        for curr in UserInfoDB.get_cursor(['_id']):
+        for curr in RequisitesDB.get_cursor(['_id']):
             assert UserDB.get_one({'info': curr['_id']})
 

@@ -13,6 +13,12 @@ class BaseDocument(Document):
     __database__ = settings.get('db_name')
     __title__ = u'Тайтл не установлен!'
     
+    @staticmethod
+    def create(cls):
+        a = connection[cls.__name__]()
+        a.save() 
+        return a
+    
     @classmethod
     def get_title(cls):
         return cls.__title__
@@ -118,4 +124,14 @@ class BaseDocument(Document):
     def load_testdata(cls):
         cls.delete_all()
 
-            
+
+def db_bool_repr(value):
+    if value:
+        return """<i class="fa fa-check text-success text"></i>"""
+    else:
+        return """<i class="fa fa-times text-danger text"></i>"""
+
+def db_link_repr(model, _id):
+    if _id:
+        return u'<a href="/db/%s/full/%s">%s >>></a>' % (model.get_db_name(), _id, model.get_title())
+    

@@ -2,7 +2,7 @@
 
 import unittest
 
-from models.racer import RacerDB
+from models.emailsettings import RacerDB
 
 class RacerTest(unittest.TestCase):
     
