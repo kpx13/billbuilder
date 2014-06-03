@@ -17,6 +17,10 @@ class PeriodicDB(BaseDocument):
                     'active': bool, # задание активно
                 }
     
+    @property
+    def name(self):
+        return self.db_dates + u' в ' + self.db_time
+    
     """ Вспомогательные функции для внутреннего использования """
     
     @staticmethod
@@ -28,11 +32,14 @@ class PeriodicDB(BaseDocument):
     
     @property
     def db_dates(self):
-        return u"""настройки здесь TODO"""
+        if self['month']:
+            return u'По %s числам месяца' % self['month']
+        else:
+            return u'Дни недели: %s' % ', '.join(self['week']) 
     
     @property
     def db_time(self):
-        return u"%:%" % (self['time_h'], self['time_m'])
+        return u"%02d:%02d" % (self['time_h'], self['time_m'])
     
     @property
     def db_active(self):

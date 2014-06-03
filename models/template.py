@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from base import BaseDocument, connection
+from base import BaseDocument, connection, db_link_repr
 from bson.objectid import ObjectId
-from counter import Counter
+from content import ContentDB
 
 @connection.register
 class TemplateDB(BaseDocument):
@@ -17,6 +17,9 @@ class TemplateDB(BaseDocument):
                     'comment': unicode,     # комментарий
                     'content': ObjectId,    # содержимое
                 }
+    @property
+    def name(self):
+        return self['name']
     
     """ Вспомогательные функции для внутреннего использования """
     
@@ -29,6 +32,6 @@ class TemplateDB(BaseDocument):
     
     @property
     def db_content(self):
-        return u"""содержимоей будет здесь TODO"""
+        return db_link_repr(ContentDB, self['content'])
     
     

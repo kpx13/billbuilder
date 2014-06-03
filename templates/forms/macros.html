@@ -1,0 +1,286 @@
+{% macro render_field(field, label_visible=true) -%}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        {% if (field.type != 'HiddenField' or field.type !='CSRFTokenField') and label_visible %}
+            <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
+        {% endif %}
+        {{ field(class_='form-control', **kwargs) }}
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+{% macro render_hidden_field(field, value='') -%}
+    {{ field(class_='form-control', **kwargs) }}
+{%- endmacro %}
+
+{% macro render_checkbox_field(field) -%}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        <div class="checkbox">
+            <label>
+                {{ field(type='checkbox', **kwargs) }} {{ field.label }}
+            </label>
+            {% if field.errors %}
+                {% for e in field.errors %}
+                    <p class="help-block">{{ e }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro render_swhitch_field(field) -%}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        <label class="switch">
+            {{ field(type='checkbox', **kwargs) }}
+            <span></span>
+        </label>
+        <label  for="{{ field.id }}" class="control-label">{{ field.label }}</label>
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+{% macro render_radio_field(field) -%}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        {% for value, label, selected in field.iter_choices() %}
+            <div class="radio">
+                <label>
+                    <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}" {% if selected %} checked {% endif %}>{{ label }}
+                </label>
+            </div>
+        {% endfor %}
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+
+{% macro render_checkboxes_field(field) -%}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        {% for value, label, selected in field.iter_choices() %}
+            <div class="checkbox-inline">
+                <label>
+                    <input type="checkbox" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}" {% if selected %} checked {% endif %}>{{ label }}
+                </label>
+            </div>
+        {% endfor %}
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+{% macro render_tags_field(field) -%}
+    
+    {% set field_id = kwargs.pop('id', field.id) %}
+    {% set field_data = kwargs.pop('data', field.data) %}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        <input type="text" name="{{ field_id }}" id='{{ field_id }}' value='{{ field.value }}' placeholder="{{ field.label.text }}" class="input-sm input-s form-control tm-input tm-input-success tm-input-base" style='float: left; margin-right: 5px'/>
+        
+        
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+    <div style='clear: both'></div>
+    
+    <script>    
+        jQuery("#{{ field_id }}").tagsManager({
+            {% if field_data %}
+                prefilled: [{% for f in field_data %}"{{ f }}", {% endfor %}],
+            {% endif %}
+            typeahead: true,
+            typeaheadAjaxMethod: "GET",
+            typeaheadAjaxSource: "{{ field.description.ajax_source }}",
+            typeaheadAjaxPolling: true
+        });
+
+    </script>
+{%- endmacro %}
+
+{% macro render_category_field(field) -%}
+
+    {% set field_id = kwargs.pop('id', field.id) %}
+    {% set field_data = kwargs.pop('data', field.data) %}
+
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        
+        <input type='hidden' name="{{ field.name }}" id='{{ field_id }}' value='{{ field_data }}' style='width: 250px' />
+        
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
+    <script>
+        $(document).ready(function() { 
+            function format(state) {
+                return state.text;
+            }
+    
+            $.getJSON('{{ field.description.ajax_source }}').done(function(data) { 
+                                                            $("#{{ field_id }}").select2({ 
+                                                                data: data.options,
+                                                                formatResult: format,
+                                                                formatSelection: format,
+                                                                escapeMarkup: function(m) { return m; }
+                                                                
+                                                        }) 
+                                                });
+            });
+    </script>
+{%- endmacro %}
+
+{% macro render_text_editor_field(field) -%}
+
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        
+        <div class="btn-toolbar m-b-sm btn-editor" data-role="editor-toolbar" data-target="#editor">
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown" title="Шрифт"><i class="fa fa-font"></i><b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                </ul>
+            </div>
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown" title="Размер шрифта"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                <li><a data-edit="fontSize 5"><font size="5">Большой</font></a></li>
+                <li><a data-edit="fontSize 3"><font size="3">Нормальный</font></a></li>
+                <li><a data-edit="fontSize 1"><font size="1">Маленький</font></a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm" data-edit="bold" title="Жирный (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="italic" title="Наклонный (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="strikethrough" title="Зачеркнутый"><i class="fa fa-strikethrough"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="underline" title="Подчеркнутый (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+            </div>
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm" data-edit="insertunorderedlist" title="Список"><i class="fa fa-list-ul"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="insertorderedlist" title="Нумерованный список"><i class="fa fa-list-ol"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="outdent" title="Убрать Абзац (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="indent" title="Абзац (Tab)"><i class="fa fa-indent"></i></a>
+            </div>
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm" data-edit="justifyleft" title="По Левому Краю (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="justifycenter" title="По Центру (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="justifyright" title="По Правому Краю (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="justifyfull" title="На Всю Ширину (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+            </div>
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown" title="Ссылка"><i class="fa fa-link"></i></a>
+            <div class="dropdown-menu">
+                <div class="input-group m-l-xs m-r-xs">
+                <input class="form-control input-sm" placeholder="URL" type="text" data-edit="createLink"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-white btn-sm" type="button"><i class="fa fa-plus"> </i></button>
+                </div>
+                </div>
+            </div>
+            <a class="btn btn-white btn-sm" data-edit="unlink" title="Убрать ссылку"><i class="fa fa-unlink"></i></a>
+            </div>
+            
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm" title="Изображение (Вы можете просто копировать и вставить)" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
+            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+            </div>
+            <div class="btn-group">
+            <a class="btn btn-white btn-sm" data-edit="undo" title="Назад (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+            <a class="btn btn-white btn-sm" data-edit="redo" title="Вперед (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+            </div>
+        </div>
+        <div id="editor" class="form-control" style="overflow:scroll;height:400px;max-height:400px" >
+            {% if field.data %}{{ field.data|safe }}{% endif %}
+        </div>
+        
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
+    <input type='hidden' name="{{ field.name }}" id='editor{{ field.id }}' />
+    
+    <script>
+        $(document).on("submit", "form", function(event){
+            $("#editor{{ field.id }}").val($('#editor').html());
+        });
+    </script>
+    
+    
+    
+{%- endmacro %}
+
+{% macro render_form(form, xsrf_token, action_url='', action_text='Отправить', class_='', btn_class='btn btn-default') -%}
+    
+    <!--Перенести в общий анализ форм на странице, чтобы не подключать дважды!-->
+    {% for f in form %}
+        {% if f.type == 'TagsField' and not hastag %}
+            <link href="/static/lib/tagmanager/bootstrap-tagmanager.css" rel="stylesheet">
+            <script src="/static/lib/tagmanager/bootstrap-tagmanager.js"></script>
+            {% set hastag=true %}
+        {% endif %}
+        
+        {% if f.type == 'CategoryField' and not hascategory %}
+            <link rel="stylesheet" href="/static/js/select2/select2.css" type="text/css" />
+            <script src="/static/js/select2/select2.min.js" cache="false"></script>
+            {% set hascategory=true %}
+        {% endif %}
+        
+        {% if f.type == 'TextEditorField' and not haseditor %}
+            <script src="/static/js/wysiwyg/jquery.hotkeys.js" cache="false"></script>
+            <script src="/static/js/wysiwyg/bootstrap-wysiwyg.js" cache="false"></script>
+            <script src="/static/js/wysiwyg/demo.js" cache="false"></script>
+            {% set haseditor=true %}
+        {% endif %}
+    {% endfor %}
+        
+    
+    <form method="POST" action="{{ action_url }}" role="form" class="{{ class_ }}">
+        {{ xsrf_token|safe }}
+        {{ form.hidden_tag() if form.hidden_tag }}
+        {% if caller %}
+            {{ caller() }}
+        {% else %}
+            {% for f in form %}
+                {% if f.type == 'BooleanField' %}
+                    {{ render_checkbox_field(f) }}
+                {% elif f.type == 'SwitchField' %}
+                    {{ render_swhitch_field(f) }}
+                {% elif f.type == 'RadioField' %}
+                    {{ render_radio_field(f) }}
+                {% elif f.type == 'CheckboxesField' %}
+                    {{ render_checkboxes_field(f) }}
+                {% elif f.type == 'TagsField' %}
+                    {{ render_tags_field(f) }}
+                {% elif f.type == 'CategoryField' %}
+                    {{ render_category_field(f) }}
+                {% elif f.type == 'TextEditorField' %}
+                    {{ render_text_editor_field(f) }}
+                {% elif f.type == 'HiddenField' %}
+                    {{ render_hidden_field(f) }}
+                {% else %}
+                    {{ render_field(f) }}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <button type="submit" class="{{ btn_class }}">{{ action_text }}</button>
+    </form>
+{%- endmacro %}

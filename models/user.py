@@ -28,6 +28,9 @@ class UserDB(BaseDocument):
         a.save() 
         return a
     
+    @property
+    def name(self):
+        return RequisitesDB.get_one({'_id': self['requisites']}, ['name'])['name']
 
     """ Вспомогательные функции для внутреннего использования """
     
@@ -43,4 +46,4 @@ class UserDB(BaseDocument):
     
     @property
     def db_emailsettingslink(self):
-        return db_link_repr(EmailSettingsDB, self['emailsettingslink'])
+        return db_link_repr(EmailSettingsDB, self['emailsettings'])

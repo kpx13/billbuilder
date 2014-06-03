@@ -9,9 +9,14 @@ class ContentDB(BaseDocument):
     __title__ = u'Содежимое счёта'
     
     skeleton = {
+                    'name': unicode,
                     'items': list,          # список наименований в счёте
                     'nds': bool,            # включить НДС
                 }
+    
+    @property
+    def name(self):
+        return self['name']
     
     """ Вспомогательные функции для внутреннего использования """
     
@@ -22,10 +27,10 @@ class ContentDB(BaseDocument):
     
     @property
     def db_items(self):
-        return u"""содержимоей будет здесь TODO"""
+        return u"""содержимое"""
     
     @property
     def db_sum(self):
-        return u"""сумма будет здесь TODO"""
+        return 0
     
     

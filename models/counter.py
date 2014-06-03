@@ -45,4 +45,10 @@ class Counter(BaseDocument):
     def load_testdata():
         for key in MODULES:
             Counter.reset_key(key)
+            
+    """ Вспомогательные функции для внутреннего использования """
+    
+    @staticmethod
+    def get_table_cols():
+        return [(u'Количество элементов', 'seq')]
         

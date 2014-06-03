@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from base import BaseDocument, connection
+from base import BaseDocument, connection, db_link_repr
 from bson.objectid import ObjectId
 from requisites import RequisitesDB
 
@@ -13,14 +13,24 @@ class ContactorDB(BaseDocument):
     skeleton = {
                     'user': ObjectId,
                     'requisites': ObjectId, # реквизиты
-                    'name': unicode,        # название организации, дублирование
+                    'email': unicode,       # email
                     'comment': unicode,     # комментарий
                 }
     
+    @property
+    def name(self):
+        return RequisitesDB.get_one({'_id': self['requisites']}, ['name'])['name']
 
     """ Вспомогательные функции для внутреннего использования """
     
     @staticmethod
     def get_table_cols():
-        return [(u'Юзер', 'user'),
-                (u'Название', 'name')]
+        return [(u'Юзер', 'db_user'),
+                (u'Название', 'name'),
+                (u'Email', 'email'),
+                (u'Комментарий', 'comment')]
+    
+    @property
+    def db_user(self):
+        from user import UserDB
+        return db_link_repr(UserDB, self['user'])

@@ -3,8 +3,8 @@
 # Скрипт копирует всю девелопмент базу данных в тестовую. 
 # Должен запускаться перед прохоном тестов.
 
-TEST_DB_NAME='lr_test'
-DEV_DB_NAME='lr_dev'
+TEST_DB_NAME='bb_test'
+DEV_DB_NAME='bb_dev'
 
 PYLINT_PATH='reports/pylint'
 COVERAGE_PATH='reports/coverage'

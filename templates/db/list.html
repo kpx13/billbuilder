@@ -25,7 +25,7 @@
                         <tr>
                             <th width="20"><input type="checkbox"></th>
                             <th width="20"></th>
-                            <th>ObjectID</th>
+                            <th>name</th>
                             
                             {% for name, _ in table_cols %}
                                 <th>{{ name }}</th>
@@ -37,7 +37,7 @@
                             <tr>
                                 <td><input type="checkbox"></td>
                                 <td><a href="#modal_{{ i._id }}" data-toggle="modal"><i class="fa fa-search-plus"></i></a></td>
-                                <td><a href='/db/{{ module_name }}/full/{{ i._id }}'>{{ i._id }}</a></td>
+                                <td><a href='/db/{{ module_name }}/full/{{ i._id }}'>{{ i.name }}</a></td>
                                 
                                 {% for _, value in table_cols %}
                                     {% if i[ value ] %}

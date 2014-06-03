@@ -1,0 +1,36 @@
+{% extends 'todo/base.html' %}
+{% from 'forms/macros.html' import render_form %}
+
+{% block title %}Формы | LifeRacing{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="/static/js/select2/select2.css" type="text/css" />
+  <link rel="stylesheet" href="/static/js/fuelux/fuelux.css" type="text/css" />
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/fuelux/fuelux.js"></script>
+    <script src="/static/js/select2/select2.min.js" cache="false"></script>
+{% endblock %}
+
+{% block body %}
+    <br /><br /><br /><br />
+    <div class="row">
+        
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-6">
+                {% for type, text in alerts %}
+                    <div class="alert alert-{{ type }}">
+                        {{ text }}
+                    </div>
+                {% endfor %}
+            <section class="panel">
+                <div class="panel-body">
+                    {{ render_form(form, xsrf_form_html()) }}
+                </div>
+            </section>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+{% endblock %}

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from base import BaseDocument, connection
+from base import BaseDocument, connection, db_bool_repr
 
 @connection.register
 class EmailSettingsDB(BaseDocument):
@@ -16,24 +16,18 @@ class EmailSettingsDB(BaseDocument):
                     'checked': bool,        # проверка пройдена
                 }
     
-
-    @staticmethod
-    def create():
-        a = connection.EmailSettingsDB()
-        a.save() 
-        return a
+    @property
+    def name(self):
+        return self['login']
 
     """ Вспомогательные функции для внутреннего использования """
     
     @staticmethod
     def get_table_cols():
-        return [(u'Логин', 'login'),
+        return [(u'SMTP сервер', 'smtp_name'),
                 (u'Проверено', 'db_is_checked'),
                 ]
 
     @property
     def db_is_checked(self):
-        if self['checked']:
-            return """<i class="fa fa-check text-success text"></i>"""
-        else:
-            return """<i class="fa fa-times text-danger text"></i>"""
+        return db_bool_repr(self['checked'])

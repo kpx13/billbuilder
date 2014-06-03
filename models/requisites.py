@@ -18,15 +18,12 @@ class RequisitesDB(BaseDocument):
                     'bank_account': unicode,    # расчетный счет
                 }
     
-
-    @staticmethod
-    def create():
-        a = connection.RequisitesDB()
-        a.save() 
-        return a
+    @property
+    def name(self):
+        return self['name']
 
     """ Вспомогательные функции для внутреннего использования """
     
     @staticmethod
     def get_table_cols():
-        return [(u'Название', 'name')]
+        return [(u'Адрес', 'address'),]

@@ -13,11 +13,42 @@ class BaseDocument(Document):
     __database__ = settings.get('db_name')
     __title__ = u'Тайтл не установлен!'
     
-    @staticmethod
+    @property
+    def name(self):
+        """ Имя сущности, по умолчанию  выводится айдишник"""
+        return str(self['_id'])
+    
+    @property
+    def for_select(self):
+        return (str(self['_id']), self.name)
+    
+    @classmethod
+    def get_for_select(cls):
+        return [ u.for_select for u in connection[cls.__name__].find() ]
+    
+    @classmethod
     def create(cls):
         a = connection[cls.__name__]()
         a.save() 
         return a
+    
+    @classmethod
+    def create_from_data(cls, data):
+        new_obj = connection[cls.__name__]()
+        keys = cls.skeleton.keys()
+        for k in keys:
+            if k in data:
+                if cls.skeleton[k] == ObjectId:
+                    new_obj[k] = ObjectId(data[k])
+                else:
+                    new_obj[k] = data[k]
+            else:
+                logging.warning(u'Ключ %s не обнаружен в skeleton. Класс %s' % (k, cls.__name__))
+        if 'id' in keys:
+            from counter import Counter
+            new_obj['id'] = Counter.insert(cls.__collection__)       
+        new_obj.save() 
+        return new_obj
     
     @classmethod
     def get_title(cls):
@@ -131,7 +162,7 @@ def db_bool_repr(value):
     else:
         return """<i class="fa fa-times text-danger text"></i>"""
 
-def db_link_repr(model, _id):
-    if _id:
-        return u'<a href="/db/%s/full/%s">%s >>></a>' % (model.get_db_name(), _id, model.get_title())
-    
+def db_link_repr(model, obj_id):
+    if obj_id:
+        return u'<a href="/db/%s/full/%s">%s >>></a>' % (model.get_db_name(), obj_id, model.get_by_id(obj_id).name)
+

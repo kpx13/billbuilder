@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from base import BaseDocument, connection, db_bool_repr
+from base import BaseDocument, connection, db_bool_repr, db_link_repr
 from bson.objectid import ObjectId
 import datetime
-from counter import Counter
 
 @connection.register
 class BillDB(BaseDocument):
@@ -22,26 +21,38 @@ class BillDB(BaseDocument):
                     'send': bool,            # отправлен
                     'paid': bool,            # оплачен
                 }
+    @property
+    def name(self):
+        from content import ContentDB
+        return ContentDB.get_by_id(self['content']).name
+    
     
     """ Вспомогательные функции для внутреннего использования """
     
     @staticmethod
     def get_table_cols():
         return [(u'Id', 'id'),
-                (u'Юзер', 'user'),
+                (u'Юзер', 'db_user'),
                 (u'Контрагенты', 'db_contractors'),
-                (u'Содержимое', 'db_content')
+                (u'Содержимое', 'db_content'),
                 (u'Отправлен', 'db_send'),
                 (u'Оплачен', 'db_paid'),]
     
     
     @property
+    def db_user(self):
+        from user import UserDB
+        return db_link_repr(UserDB, self['user'])
+    
+    @property
     def db_content(self):
-        return u"""содержимоей будет здесь TODO"""
+        from content import ContentDB
+        return db_link_repr(ContentDB, self['content'])
     
     @property
     def db_contractors(self):
-        return u"""контрагенты будут здесь TODO"""
+        from contactor import ContactorDB
+        return db_link_repr(ContactorDB, self['contractor'])
     
     @property
     def db_send(self):

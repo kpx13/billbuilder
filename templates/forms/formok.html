@@ -1,0 +1,31 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}Формы | LifeRacing{% endblock %}
+
+{% block body %}
+    <br /><br /><br /><br />
+    <div class="row">
+        
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-6">
+                
+            <div class="alert alert-success">
+                Форма успешно отправлена. Результат ниже:
+            </div>
+                
+            <section class="panel">
+                <div class="panel-body">
+                    <dl>
+                    {% for key, value in formdata.iteritems() %}
+                        <dt>{{ key|e }}</dt>
+                        <dd>{{ value|e }}</dd>
+                    {% endfor %}
+                    </dl>
+                </div>
+            </section>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+{% endblock %}

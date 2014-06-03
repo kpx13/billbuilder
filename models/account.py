@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 import datetime
 import hashlib
 
-from base import connection, BaseDocument, db_bool_repr
+from base import connection, BaseDocument, db_bool_repr, db_link_repr
 from user import UserDB
 
 
@@ -26,6 +26,10 @@ class AccountDB(BaseDocument):
                     'password_hash': unicode,
                     'date_registry': datetime.datetime,
                 }
+    
+    @property
+    def name(self):
+        return self['email']
     
     @staticmethod
     def check_email(email):
@@ -97,4 +101,4 @@ class AccountDB(BaseDocument):
     
     @property
     def db_userlink(self):
-        return """<a href='/db/user/detail/%s'>%s</a>""" % (self['user'], self['user'])
+        return db_link_repr(UserDB, self['user'])

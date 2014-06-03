@@ -3,7 +3,7 @@
 import sys
 import unittest
 
-sys.path.append('/home/kpx/liferacing/liferacing')
+sys.path.append('/home/kpx/billbuilder/billbuilder')
 
 #from models.common import MODULES_ALL, reset_all, load_from_dumps 
 

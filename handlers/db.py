@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 from basehandler import BaseHandler
 
 from forms.auth import RegisterForm
+from forms.db import *
 
 from models.common import *
 
@@ -46,7 +47,7 @@ class BaseCreateHandler(BaseDBHandler):
         
         if form.validate():
             self.context.update({'title': u'%s | Cоздание' % self._model.get_title(),
-                                 'item': self._model.create(form.data)})
+                                 'item': self._model.create_from_data(form.data)})
             self.render(tmpl('full'))
         else:
             self.context.update({'title': u'%s | Cоздание | Ошибки' % self._model.get_title(),
@@ -173,13 +174,18 @@ def account_create_post(self):
                         'form': form       })
     self.render(tmpl('create'))
 
-
 HANDLERS = [
-                {'model': EmailSettingsDB, 'form': None},
                 {'model': Counter, 'form': None},
-                {'model': UserDB, 'form': None},
-                {'model': RequisitesDB, 'form': None},
+                {'model': RequisitesDB, 'form': RequisitesForm},
+                {'model': EmailSettingsDB, 'form': EmailSettingsForm},
+                {'model': UserDB, 'form': UserForm},
                 {'model': AccountDB, 'form': RegisterForm, 'override': {'CreateHandler': {'post': account_create_post}}},
+                {'model': ContactorDB, 'form': ContractorForm},
+                {'model': PeriodicDB, 'form': PeriodicForm},
+                {'model': ContentDB, 'form': ContentForm},
+                {'model': TemplateDB, 'form': TemplateForm},
+                {'model': TaskDB, 'form': TaskForm},
+                {'model': BillDB, 'form': BillForm},
             ]
 
 additional_routes_list = []
