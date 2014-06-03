@@ -18,6 +18,7 @@ tornado.options.parse_command_line()
 import settings
 URL_PREFIX = ''
 CURR_PATH = os.path.dirname(os.path.realpath(__file__))
+PERIOD = 5 # в секундах
 
 from handlers.basehandler import Home
 
@@ -42,16 +43,24 @@ class Application(tornado.web.Application):
         app_settings.update(settings.default_app_options)
 
         tornado.web.Application.__init__(self, req_handlers, **app_settings)
-
+        
+    def period_run(self):
+        print '*'
 
 
 def main():
     try:
-        http_server = tornado.httpserver.HTTPServer(Application())
+        app = Application()
+        http_server = tornado.httpserver.HTTPServer(app, xheaders=True)
         http_server.listen(tornado_options_dict.port)
-        tornado.ioloop.IOLoop.instance().start()
+        loop = tornado.ioloop.IOLoop.instance()
+        period_cbk = tornado.ioloop.PeriodicCallback(app.period_run, 1000*PERIOD, loop)
+        period_cbk.start()
+        loop.start()
     except KeyboardInterrupt:
         return
 
 if __name__ == '__main__':
     main()
+
+
