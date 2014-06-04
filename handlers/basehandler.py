@@ -98,7 +98,7 @@ class Home(BaseHandler):
 class TestBill(BaseHandler):
     
     def get(self):
-        from units.documents import create_context
+        from units.documents import create_context, create_bill, create_pdf_bill
         from models.requisites import RequisitesDB
         from datetime import datetime
         
@@ -119,25 +119,9 @@ class TestBill(BaseHandler):
                     'count': 2,
                     'price': 666.6  }]
         
-        self.context = create_context(sender, recipient, bill_num, date, items)
-        self.context.update(self.get_template_namespace())
-        html = jinja_env.get_template('documents/bill.html').render(self.context)
-        self.write(html)
+        context = create_context(sender, recipient, bill_num, date, items)
+        self.write(create_bill(context))
         self.xsrf_token
         self.flush()
-        
-        pdf_context = create_context(sender, recipient, bill_num, date, items)
-        pdf_context['MEDIA_ROOT'] = '/home/kpx/billbuilder/billbuilder'
-        html = jinja_env.get_template('documents/bill_pdf.html').render(pdf_context)
-        
-        import xhtml2pdf.pisa as pisa
-        import cStringIO as StringIO
-        result = StringIO.StringIO()
-        pdf = pisa.pisaDocument(StringIO.StringIO(html.encode('utf-8')), result, show_error_as_pdf=True, encoding='UTF-8')
-        if not pdf.err:
-            print 'OKKKKKKKK'
-        else:
-            print 'err', pdf.err
-        f = open('asdf.pdf', 'wb')
-        f.write(result.getvalue())
-        
+        create_pdf_bill(context, 'asdf.pdf')
+

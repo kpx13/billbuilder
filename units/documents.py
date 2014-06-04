@@ -2,6 +2,8 @@
 
 from settings import jinja_env
 import pytils
+import xhtml2pdf.pisa as pisa
+import cStringIO as StringIO
 
 """
     items: список из {
@@ -29,5 +31,11 @@ def create_context(sender, recipient, bill_num, date, items):
             }
 
 def create_bill(context, template_name='documents/bill.html'):
-    jinja_env.get_template(template_name).render(context)
+    return jinja_env.get_template(template_name).render(context)
 
+def create_pdf_bill(context, filename, template_name='documents/bill_pdf.html'):
+    context['MEDIA_ROOT'] = '/home/kpx/billbuilder/billbuilder'
+    html = jinja_env.get_template(template_name).render(context)
+    result = StringIO.StringIO()
+    pisa.pisaDocument(StringIO.StringIO(html.encode('utf-8')), result, show_error_as_pdf=True, encoding='UTF-8')
+    open(filename, 'wb').write(result.getvalue())    
