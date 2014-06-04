@@ -120,5 +120,24 @@ class TestBill(BaseHandler):
                     'price': 666.6  }]
         
         self.context = create_context(sender, recipient, bill_num, date, items)
-        self.render('documents/bill.html')
+        self.context.update(self.get_template_namespace())
+        html = jinja_env.get_template('documents/bill.html').render(self.context)
+        self.write(html)
+        self.xsrf_token
+        self.flush()
+        
+        pdf_context = create_context(sender, recipient, bill_num, date, items)
+        pdf_context['MEDIA_ROOT'] = '/home/kpx/billbuilder/billbuilder'
+        html = jinja_env.get_template('documents/bill_pdf.html').render(pdf_context)
+        
+        import xhtml2pdf.pisa as pisa
+        import cStringIO as StringIO
+        result = StringIO.StringIO()
+        pdf = pisa.pisaDocument(StringIO.StringIO(html.encode('utf-8')), result, show_error_as_pdf=True, encoding='UTF-8')
+        if not pdf.err:
+            print 'OKKKKKKKK'
+        else:
+            print 'err', pdf.err
+        f = open('asdf.pdf', 'wb')
+        f.write(result.getvalue())
         

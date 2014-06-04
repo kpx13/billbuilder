@@ -4,29 +4,34 @@
     <title>Бланк "Счет на оплату"</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
+        @page { size: A4; margin: 1cm; }
+        @font-face { font-family: Arial; src: url({{ MEDIA_ROOT }}/static/fonts/arial.ttf); }
+        body { font-size: 14px; line-height: 1em; font-family: Arial; }    
         body { width: 210mm; margin-left: auto; margin-right: auto; border: 1px #efefef solid; font-size: 11pt;}
         table.invoice_bank_rekv { border-collapse: collapse; border: 1px solid; }
         table.invoice_bank_rekv > tbody > tr > td, table.invoice_bank_rekv > tr > td { border: 1px solid; }
         table.invoice_items { border: 1px solid; border-collapse: collapse;}
         table.invoice_items td, table.invoice_items th { border: 1px solid;}
+        table.without-border { border-collapse: collapse; border: none; }
+        table.without-border > tr > td { border: none; }
+        div { border: none }
     </style>
 </head>
 <body>
-<table width="100%">
+<table width="100%" class='without-border'>
     <tr>
         <td>
             <b>{{ sender.name }}</b><br />
             {{ sender.address }}<br />
-            ИНН:&nbsp;{{ sender.inn }}
         </td>
         <td  style="max-width:140mm; ">
-            <img src='/media/docs/logo.jpg' style='max-height: 150px; max-width: 100%'>
+            <img src='{{ MEDIA_ROOT }}/media/docs/logo.jpg' style='max-height: 150px; max-width: 100%'>
         </td>
     </tr>
 </table>
-<br />
-<br />
-<table width="100%" cellpadding="2" cellspacing="2" class="invoice_bank_rekv">
+
+
+<table width="100%" cellpadding="2" cellspacing="2" class="invoice_bank_rekv" style='margin-top: 30px'>
     <tr>
         <td style="min-height:6mm; height:auto; width: 50mm;">
             <div>ИНН {{ sender.inn }}</div>
@@ -88,15 +93,15 @@
         </td>
     </tr>
 </table>
-<br/>
 
-<div style="font-weight: bold; font-size: 16pt; text-align: center">
+
+<div style="font-weight: bold; font-size: 16pt; text-align: center; border: none" style='margin-top: 50px'>
     Счет № {{ bill_num }} от {{ date.strftime('%d.%m.%Y') }}&nbsp;г.</div>
-<br/>
 
-<div style="background-color:#000000; width:100%; font-size:1px; height:2px;">&nbsp;</div>
 
-<table width="100%">
+<div style="background-color:#000000; width:100%; font-size:1px; height:2px; margin-top: 50px">&nbsp;</div>
+
+<table width="100%" class='without-border' style='margin-top: 10px'>
     <tr>
         <td valign="top"  style="width: 30mm;">
             <div style="vertical-align: top; padding-left:2px;">Плательщик:    </div>
@@ -114,15 +119,15 @@
 </table>
 
 
-<table class="invoice_items" width="100%" cellpadding="2" cellspacing="2">
+<table class="invoice_items" width="100%" cellpadding="2" cellspacing="2" style='margin-top: 30px'>
     <thead>
     <tr>
         <th style="width:13mm;">№</th>
         <th>Наименование товара, работ, услуг</th>
         <th style="width:20mm;">Кол-во</th>
-        <th style="width:17mm;">Ед.</th>
-        <th style="width:27mm;">Цена</th>
-        <th style="width:27mm;">Сумма</th>
+        <th style="width:25mm;">Ед.</th>
+        <th style="width:47mm;">Цена</th>
+        <th style="width:47mm;">Сумма</th>
     </tr>
     </thead>
     <tbody >
@@ -138,9 +143,9 @@
         {% endfor %}
         
     </tbody>
-    </table>
+</table>
 
-<table border="0" width="100%" cellpadding="1" cellspacing="1">
+<table border="0" width="100%" cellpadding="1" cellspacing="1" class='without-border'>
     <tr>
         <td></td>
         <td style="width:27mm; font-weight:bold;  text-align:right;">Итого:</td>
@@ -148,19 +153,19 @@
     </tr>
 </table>
 
-<br />
-<div>
+
+<div  style='margin-top: 30px; border: none'>
 Всего наименований {{ items_count }} на сумму <b>{{ '%8.02f' % items_sum }}</b> руб.<br />
 {{ items_sum_text }}.</div>
-<br /><br />
-<div style="background-color:#000000; width:100%; font-size:1px; height:2px;">&nbsp;</div>
-<br/>
 
-<table border="0" width="100%" cellpadding="1" cellspacing="1">
+<div style="background-color:#000000; width:100%; font-size:1px; height:2px;">&nbsp;</div>
+
+
+<table border="0" width="100%" cellpadding="1" cellspacing="1" class='without-border' style='margin-top: 30px'>
     <tr>
         <td style='width: 120mm; vertical-align: bottom'>Руководитель:</td>
         <td style="width: 100px">
-            <img src='/media/docs/sign_100x75.png' style='height: 75px; width: 100px'>
+            <img src='{{ MEDIA_ROOT }}/media/docs/sign_100x75.png' style='height: 75px; width: 100px'>
         </td>
         <td style=' vertical-align: bottom'>/{{ sender.accountant }}/</td>
     </tr>
@@ -173,12 +178,10 @@
         <td></td>
         <td colspan=2 style="vertical-align: top; text-align: left;">
             <br />
-            <img src='/media/docs/stamp_180x180.png' style='height: 180px; width: 180px'>
+            <img src='{{ MEDIA_ROOT }}/media/docs/stamp_180x180.png' style='height: 180px; width: 180px'>
         </td>
     </tr>
 </table>
-
-<br/>
 
 </body>
 </html>
