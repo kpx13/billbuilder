@@ -12,6 +12,10 @@
     </div>
 {%- endmacro %}
 
+{% macro render_mini_field(field) -%}
+    {{ field(placeholder=field.label.text, **kwargs) }}
+{%- endmacro %}
+
 {% macro render_hidden_field(field, value='') -%}
     {{ field(class_='form-control', **kwargs) }}
 {%- endmacro %}

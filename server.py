@@ -38,6 +38,7 @@ class Application(tornado.web.Application):
                 (r'/user', include('handlers.user')),
                 (r'/db', include('handlers.db')),
                 (r'/contractors', include('handlers.contractors')),
+                (r'/bills', include('handlers.bills')),
             ))
 
         app_env = tornado_options_dict.environment
