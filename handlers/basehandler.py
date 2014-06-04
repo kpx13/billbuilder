@@ -94,3 +94,31 @@ class Home(BaseHandler):
     def get(self):
         self.render('home.html')
     
+    
+class TestBill(BaseHandler):
+    
+    def get(self):
+        from units.documents import create_context
+        from models.requisites import RequisitesDB
+        from datetime import datetime
+        
+        sender = RequisitesDB.get_one({'inn': '772160030650'})
+        recipient = RequisitesDB.get_one({'inn': '7729687715'})
+        bill_num = 156
+        date = datetime.now()
+        items = [{  'name': u'Услуги по поддержке сайта за май 2014г',
+                    'unit': u'мес.',      
+                    'count': 1,
+                    'price': 10000  },
+                 {  'name': u'Оплата хостинга',
+                    'unit': u'мес.',      
+                    'count': 6,
+                    'price': 250  },
+                 {  'name': u'За красивые глаза',
+                    'unit': u'шт.',      
+                    'count': 2,
+                    'price': 666.6  }]
+        
+        self.context = create_context(sender, recipient, bill_num, date, items)
+        self.render('documents/bill.html')
+        

@@ -20,13 +20,14 @@ URL_PREFIX = ''
 CURR_PATH = os.path.dirname(os.path.realpath(__file__))
 PERIOD = 30 # в секундах
 
-from handlers.basehandler import Home
+from handlers.basehandler import Home, TestBill
 
 class Application(tornado.web.Application):
     def __init__(self):
         
         req_handlers = [
             (r'/', Home),
+            (r'/tb', TestBill),
             (r'/static/(.*)', StaticFileHandler, {'path':  CURR_PATH + '/static'}),
             (r'/media/(.*)', StaticFileHandler, {'path': CURR_PATH + '/media'}),
             (r'/ico/(.*)', StaticFileHandler, {'path': CURR_PATH + '/static/images'}),

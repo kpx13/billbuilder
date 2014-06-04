@@ -33,7 +33,9 @@ class RequisitesForm(Form):
     kpp = StringField(u'КПП')
     bank_bik = StringField(u'БИК банка')
     bank_name = StringField(u'Название банка')
+    bank_ks = StringField(u'Корр. счет банка')
     bank_account = StringField(u'Р/C')
+    accountant = StringField(u'ФИО ответственного лица')
 
 class ContractorForm(Form):
     user = SelectField(u'Юзер', choices=UserDB.get_for_select(), validators=[REQ])

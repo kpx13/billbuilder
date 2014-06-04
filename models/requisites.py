@@ -15,7 +15,9 @@ class RequisitesDB(BaseDocument):
                     'kpp': unicode,             # КПП
                     'bank_bik': unicode,        # БИК банка 
                     'bank_name': unicode,       # название банка
+                    'bank_ks': unicode,         # корр. счет банка
                     'bank_account': unicode,    # расчетный счет
+                    'accountant': unicode,      # ФИО бухгалтера
                 }
     
     @property
