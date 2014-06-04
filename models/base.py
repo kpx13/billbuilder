@@ -12,6 +12,7 @@ logging.info(u'Работаем с базой данных %s.' % settings.get('
 class BaseDocument(Document):
     __database__ = settings.get('db_name')
     __title__ = u'Тайтл не установлен!'
+    __short_fields__ = []
     
     @property
     def name(self):
@@ -76,7 +77,7 @@ class BaseDocument(Document):
     
     @classmethod
     def get_middle(cls, _id):
-        return cls.get_data_by_id(_id)
+        return cls.get_data_by_id(_id) 
     
     @classmethod
     def get_short(cls, _id):
@@ -95,6 +96,13 @@ class BaseDocument(Document):
     def get_list(cls):
         """ Возвращает список всех объектов """
         return [x for x in connection[cls.__name__].find()]
+    
+    @classmethod
+    def get_table_by_user(cls, user_id):
+        if 'user' in cls.skeleton:
+            return connection[cls.__name__].find({'user': user_id}, fields=cls.__short_fields__)
+        else:
+            logging.warning(u'Ключ %s не обнаружен в skeleton. Класс %s' % ('user', cls.__name__))
     
     @classmethod
     def get_cursor(cls, fields=None):

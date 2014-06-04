@@ -9,6 +9,7 @@ class ContactorDB(BaseDocument):
     
     __collection__ = 'contactor'
     __title__ = u'Контрагент'
+    __short_fields__ = ['requisites', 'email', 'user']
     
     skeleton = {
                     'user': ObjectId,
@@ -23,6 +24,11 @@ class ContactorDB(BaseDocument):
 
     """ Вспомогательные функции для внутреннего использования """
     
+    @staticmethod
+    def get_table_columns():
+        return [(u'Название', 'name'),
+                (u'Email', 'email')]
+        
     @staticmethod
     def get_table_cols():
         return [(u'Юзер', 'db_user'),

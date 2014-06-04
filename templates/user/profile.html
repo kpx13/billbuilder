@@ -82,15 +82,6 @@
                                         <p>{{ user.about }}</p>
                                         <div class="line"></div>
                                         <small class="text-uc text-xs text-muted">Ссылки</small>
-                                        <p class="m-t-sm">
-                                            {% for k, v in user.links.iteritems() %}
-                                                {% if k =='google_plus' %}
-                                                    <a href="{{ v }}" class="btn btn-rounded btn-gplus btn-icon"><i class="fa fa-google-plus"></i></a>
-                                                {% else %}
-                                                    <a href="{{ v }}" class="btn btn-rounded btn-{{ k }} btn-icon" target='_blank'><i class="fa fa-{{ k }}"></i></a>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </p>
                                     </div>
                                 </div>
                             </section>

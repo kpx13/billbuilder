@@ -18,7 +18,7 @@ tornado.options.parse_command_line()
 import settings
 URL_PREFIX = ''
 CURR_PATH = os.path.dirname(os.path.realpath(__file__))
-PERIOD = 5 # в секундах
+PERIOD = 30 # в секундах
 
 from handlers.basehandler import Home
 
@@ -36,6 +36,7 @@ class Application(tornado.web.Application):
                 (r'/account', include('handlers.account')),
                 (r'/user', include('handlers.user')),
                 (r'/db', include('handlers.db')),
+                (r'/contractors', include('handlers.contractors')),
             ))
 
         app_env = tornado_options_dict.environment

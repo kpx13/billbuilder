@@ -3,6 +3,7 @@ from tornado import web
 from tornado_routes import route
 
 from basehandler import BaseHandler, authorized
+from models.user import UserDB
 
 url_base = 'user'
 
@@ -16,6 +17,6 @@ class Profile(BaseHandler):
     @authorized
     def get(self):
         self.context.update({'title': u'Профиль',
-                             'user': self.user_obj.get_profile()
+                             'user': UserDB.get_full(self.user_obj['_id'])
                         })
         self.render(tmpl('profile'))

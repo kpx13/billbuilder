@@ -130,7 +130,6 @@ def ClassFactory(attrs):
         if 'override' in attrs:
             if name_postfix in attrs['override']:
                 newclass = type(name + name_postfix , (base_handler, ), attrs['override'][name_postfix])
-                print 'OVERRIDE'
         newclass._name = name
         newclass._model = model
         newclass._form = form 
