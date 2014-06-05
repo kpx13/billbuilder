@@ -1,6 +1,6 @@
 {% extends 'base_in.html' %}
 
-{% from 'forms/macros.html' import render_mini_field %}
+{% from 'forms/macros.html' import render_mini_field, render_tr_form %}
 
 {% block css %}
     <style>
@@ -11,17 +11,68 @@
     </style>
 {% endblock %}
 
+{% block js %}
+    <script>
+        $(function () {
+            
+            
+            $(".cart-item__price_all").html(0);
+            
+            $(".cart-item__amount").on('change blur keyup input mousewheel', function () {
+                this.value = this.value.replace(/[^0-9+()]/g, '');
+                var amount = parseInt($(this).val() * 1);
+                var price = parseInt($(this).parents('.cart-item').find(".cart-item__price").val() * 1);
+                var sum = amount * price;
+                $(this).parents('.cart-item').find(".cart-item__price_all").html(sum);
+                sumCart();
+
+            });
+
+            $(".cart-item__price").on('change blur keyup input mousewheel', function () {
+                this.value = this.value.replace(/[^0-9+()]/g, '');
+                var price = parseInt($(this).val() * 1);
+                var amount = parseInt($(this).parents('.cart-item').find(".cart-item__amount").val() * 1);
+                var sum = amount * price;
+                $(this).parents('.cart-item').find(".cart-item__price_all").html(sum);
+                sumCart();
+
+            });
+
+            
+            function sumCart() {
+                var count = 0;
+                var size = 0;
+                $(".cart-item__price_all").each(function () {
+                    count += parseInt($(this).html());
+                });
+                $(".cart-item__amount").each(function () {
+                    size += parseInt($(this).val());
+                });
+                count = count + '';
+                var countNew = count.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+                $(".tovar-price._sum").html(countNew);
+            }
+
+            sumCart();
+        });
+    </script>
+    
+{% endblock %}
+
 {% block content %}
+<form method="POST" role="form">
+    {{ xsrf_form_html()|safe }}
+    
     <header class="header bg-white b-b clearfix">
         <div class="row m-t-sm">
             <div class="col-sm-6 m-b-xs">
                 <a href="#subNav" data-toggle="class:hide" class="btn btn-sm btn-info active"><i class="fa fa-caret-right text fa fa-large"></i><i class="fa fa-caret-left text-active fa fa-large"></i></a>
-                <a href="/{{ module_name }}/create" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Сохранить</a>
+                <button type='submit' class='btn btn-sm btn-success'><i class="fa fa-save"></i> Сохранить</button>
             </div>
         </div>
     </header>
     <section class="scrollable wrapper">
-        <section class="panel">
+        <section class="panel" style='width: 800px; margin: 0 auto'>
             <section class="panel-body">
                 <table width="100%">
                     <tr>
@@ -106,7 +157,7 @@
                 <br/>
 
                 <div style="background-color:#000000; width:100%; font-size:1px; height:2px;">&nbsp;</div>
-
+                <br />
                 <table width="100%">
                     <tr>
                         <td valign="top"  style="width: 30mm;">
@@ -114,21 +165,24 @@
                         </td>
                         <td>
                             <div style="font-weight:bold;  padding-left:2px;">
-                                {{ render_mini_field(recipient.name) }}, 
-                                {{ render_mini_field(recipient.address) }}, 
-                                ИНН&nbsp;{{ render_mini_field(recipient.inn) }}, КПП&nbsp;{{ render_mini_field(recipient.kpp) }}, <br />
+                                Название&nbsp;{{ render_mini_field(recipient.name) }}, 
+                                Адрес&nbsp;{{ render_mini_field(recipient.address) }}, 
+                                ИНН&nbsp;{{ render_mini_field(recipient.inn) }}, 
+                                КПП&nbsp;{{ render_mini_field(recipient.kpp) }},
                                 р/сч&nbsp;{{ render_mini_field(recipient.bank_account) }}, 
-                                банк&nbsp;{{ render_mini_field(recipient.bank_name) }}, кор.счет&nbsp;{{ render_mini_field(recipient.bank_ks) }}, БИК&nbsp;{{ render_mini_field(recipient.bank_bik) }}            
+                                банк&nbsp;{{ render_mini_field(recipient.bank_name) }}, 
+                                кор.счет&nbsp;{{ render_mini_field(recipient.bank_ks) }}, 
+                                БИК&nbsp;{{ render_mini_field(recipient.bank_bik) }}            
                             </div>
                         </td>
                     </tr>
                 </table>
 
-
+                <br /><br />
                 <table class="invoice_items" width="100%" cellpadding="2" cellspacing="2">
                     <thead>
                     <tr>
-                        <th style="width:13mm;">№</th>
+                        <th style="width:13mm; text-align: center">№</th>
                         <th>Наименование товара, работ, услуг</th>
                         <th style="width:20mm;">Кол-во</th>
                         <th style="width:17mm;">Ед.</th>
@@ -137,33 +191,26 @@
                     </tr>
                     </thead>
                     <tbody >
-                        {% for i in items %}
-                            <tr>
+                        {% for i in bill_content.items %}
+                            <tr class="cart-item">
                                 <td align="center">{{ loop.index }}</td>
-                                <td align="left">{{ i.name }}</td>
-                                <td align="right">{{ i.count }}</td>
-                                <td align="left">{{ i.unit }}</td>
-                                <td align="right">{{ '%8.02f' % i.price }}&nbsp;p.</td>
-                                <td align="right">{{ '%8.02f' % (i.count * i.price) }}&nbsp;p.</td>
+                                {{ render_tr_form(i) }}
+                                <td><span class="cart-item__price_all"></span>&nbsp;p.</td>
                             </tr>
                         {% endfor %}
-                        
                     </tbody>
                     </table>
 
                 <table border="0" width="100%" cellpadding="1" cellspacing="1">
                     <tr>
-                        <td></td>
+                        <td style='width: 600px'></td>
                         <td style="width:27mm; font-weight:bold;  text-align:right;">Итого:</td>
-                        <td style="width:27mm; font-weight:bold;  text-align:right;">&nbsp;p.</td>
+                        <td style="width:27mm; font-weight:bold;  text-align:right;"><span class="tovar-price _sum"></span>&nbsp;p.</td>
                     </tr>
                 </table>
 
                 <br />
-                <div>
-                Всего наименований  на сумму <b> </b> руб.<br />
-                </div>
-                <br /><br />
+                <br />
                 <div style="background-color:#000000; width:100%; font-size:1px; height:2px;">&nbsp;</div>
                 <br/>
 
@@ -191,4 +238,5 @@
             </section>
         </section>
     </section>
+</form>
 {% endblock %}

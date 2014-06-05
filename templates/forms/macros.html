@@ -1,3 +1,22 @@
+{% macro render_mini_field(field) -%}
+    {% set style = kwargs.pop('style', '') %}
+    {% if field.errors %}
+        {% set style = style + 'border: 1px solid red' %}
+    {% endif %}
+    
+    {{ field(placeholder=field.label.text, style=style, **kwargs) }}
+{%- endmacro %}
+
+{% macro render_tr_form(form) -%}
+    {% for f in form %}
+        {% if f.description.class %}
+            <td>{{ render_mini_field(f, class=f.description.class, style='width: 100%; border: none;') }}</td>
+        {% else %}
+            <td>{{ render_mini_field(f, style='width: 100%; border: none;') }}</td>
+        {% endif %}
+    {% endfor %}
+{%- endmacro %}
+
 {% macro render_field(field, label_visible=true) -%}
     <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
         {% if (field.type != 'HiddenField' or field.type !='CSRFTokenField') and label_visible %}
@@ -10,10 +29,6 @@
             {% endfor %}
         {% endif %}
     </div>
-{%- endmacro %}
-
-{% macro render_mini_field(field) -%}
-    {{ field(placeholder=field.label.text, **kwargs) }}
 {%- endmacro %}
 
 {% macro render_hidden_field(field, value='') -%}
@@ -280,6 +295,8 @@
                     {{ render_text_editor_field(f) }}
                 {% elif f.type == 'HiddenField' %}
                     {{ render_hidden_field(f) }}
+                {% elif f.type == 'FormField' %}
+                    {{ render_tr_form(f) }}
                 {% else %}
                     {{ render_field(f) }}
                 {% endif %}
@@ -288,3 +305,5 @@
         <button type="submit" class="{{ btn_class }}">{{ action_text }}</button>
     </form>
 {%- endmacro %}
+
+

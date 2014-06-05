@@ -3,6 +3,7 @@
 from base import BaseDocument, connection, db_link_repr
 from bson.objectid import ObjectId
 from requisites import RequisitesDB
+import logging
 
 @connection.register
 class ContactorDB(BaseDocument):
@@ -17,6 +18,20 @@ class ContactorDB(BaseDocument):
                     'email': unicode,       # email
                     'comment': unicode,     # комментарий
                 }
+    
+    @classmethod
+    def create(cls, user_id, requisites_id, email='', comment=''):
+        alr = cls.get_one({'user': user_id, 'requisites': requisites_id})
+        if alr:
+            logging.warning(u'Попытка создать дублирующего контрагента')
+            return alr
+        a = connection[cls.__name__]()
+        a['user'] = user_id
+        a['requisites'] = requisites_id
+        a['email'] = email
+        a['comment'] = comment
+        a.save() 
+        return a
     
     @property
     def name(self):

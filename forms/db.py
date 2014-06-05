@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from baseform import Form, CheckboxesField, SelectMultipleField
-from wtforms import StringField, validators, SelectField, TextAreaField, PasswordField, IntegerField, BooleanField
+from wtforms import StringField, validators, SelectField, TextAreaField, PasswordField, IntegerField, BooleanField, FloatField, FieldList, FormField
 from models.user import UserDB
 from models.requisites import RequisitesDB
 from models.emailsettings import EmailSettingsDB
@@ -9,7 +9,7 @@ from models.content import ContentDB
 from models.contactor import ContactorDB
 from models.periodic import PeriodicDB
 from models.template import TemplateDB
-from models.task import TaskDB
+from models.task import TaskDB 
 
 REQ = validators.InputRequired(u'Обязательное поле.')
 WEEK = [('1', u'ПН'), ('2', u'ВТ'), ('3', u'СР'), ('4', u'ЧТ'), ('5', u'ПТ'), ('6', u'СБ'), ('7', u'ВС')]
@@ -22,7 +22,7 @@ class ChangeEmailForm(Form):
         "email_occupied": u"Email занят.",
     }
     
-CHOISES_1 = [('cpp', 'C++'), ('py', 'Python'), ('text', 'Plain Text')]
+CHOISES_UNITS = [(u'шт.', 'шт.'), ('py', 'Python'), ('text', 'Plain Text')]
 REQ = validators.InputRequired(u'Обязательное поле.')
         
 
@@ -76,7 +76,17 @@ class TaskForm(Form):
     contractors = SelectMultipleField(u'Контрагенты', choices=ContactorDB.get_for_select(), validators=[REQ])
     periodic = SelectField(u'Периодичность', choices=PeriodicDB.get_for_select(), validators=[REQ])
     template = SelectField(u'Шаблон', choices=TemplateDB.get_for_select(), validators=[REQ])
-                    
+
+
+class BillItemForm(Form):
+    name = StringField(u'наименование')
+    count = FloatField(u'кол-во', default=0, description={'class': 'cart-item__amount'})
+    unit = StringField(u'ед. изм.')
+    price = FloatField(u'цена', default=0, description={'class': 'cart-item__price'})
+
+class BillContentForm(Form):
+    items = FieldList(FormField(BillItemForm), min_entries=3, max_entries=100)
+
 class BillForm(Form):
     user = SelectField(u'Юзер', choices=UserDB.get_for_select(), validators=[REQ])
     contractor = SelectField(u'Контрагент', choices=ContactorDB.get_for_select(), validators=[REQ])

@@ -9,14 +9,21 @@ class ContentDB(BaseDocument):
     __title__ = u'Содежимое счёта'
     
     skeleton = {
-                    'name': unicode,
                     'items': list,          # список наименований в счёте
-                    'nds': bool,            # включить НДС
+                    'nds': int,             # включить НДС
                 }
+    
+    @classmethod
+    def create(cls, items):
+        a = connection[cls.__name__]()
+        a['items'] = items
+        a['nds'] = 0
+        a.save() 
+        return a
     
     @property
     def name(self):
-        return self['name']
+        return '***'
     
     """ Вспомогательные функции для внутреннего использования """
     
