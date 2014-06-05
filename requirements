@@ -20,5 +20,6 @@ pyPdf2==1.19
 reportlab==2.5
 git+https://github.com/chrisglass/xhtml2pdf.git
 pika==0.9.13
+APScheduler==2.1.2
 #sudo apt-get install python-pip git-core
 #sudo apt-get install python-amqplib python-txAMQP rabbitmq-server
