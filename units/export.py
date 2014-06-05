@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import smtplib
-from email.mime.text import MIMEText
-from settings import jinja_env
+import pika
+import json
 
-def send_mail(email, subject, text):
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls()
-    s.login('noreply@webgenesis.ru', 'noreply13')
-    msg = MIMEText(text.encode('utf-8'), 'html')
-    msg['Subject'] = subject.encode('utf-8')
-    msg['From'] = 'LifeRacing'
-    msg['To'] = email
-    s.sendmail(msg['From'], [msg['To']], msg.as_string())
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+channel = connection.channel()
+channel.queue_declare(queue='hello')
     
-    
-def send_html_mail(email, subject, template_name, context):
-    send_mail(email, subject, jinja_env.get_template(template_name).render(context))
+
+def send_mail_by_queue(email, subject, body):
+    channel.basic_publish(exchange='',
+                          routing_key='hello',
+                          body=json.dumps({ 'action': 'send_mail',
+                                            'msg': {
+                                                        'email': email,
+                                                        'subject': subject,
+                                                        'body': body,
+                                                    }}))

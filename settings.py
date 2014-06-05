@@ -9,10 +9,10 @@ app_options = {
     "dev" : {
         'db_name': 'bb_dev',
         'log_db_name': 'log_bb_dev',
-        #'pycket' : {
-        #        'engine': 'memcached',
-        #        'storage': {'servers': ('localhost:11211',)},
-        #        'cookies': {'expires_days': 120}},
+        'pycket' : {
+                'engine': 'memcached',
+                'storage': {'servers': ('localhost:11211',)},
+                'cookies': {'expires_days': 120}},
     },
 
     "test": {

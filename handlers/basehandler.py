@@ -101,6 +101,7 @@ class TestBill(BaseHandler):
         from units.documents import create_context, create_bill, create_pdf_bill
         from models.requisites import RequisitesDB
         from datetime import datetime
+        from units.export import send_mail_by_queue
         
         sender = RequisitesDB.get_one({'inn': '772160030650'})
         recipient = RequisitesDB.get_one({'inn': '7729687715'})
@@ -124,4 +125,4 @@ class TestBill(BaseHandler):
         self.xsrf_token
         self.flush()
         create_pdf_bill(context, 'asdf.pdf')
-
+        send_mail_by_queue('annkpx@gmail.com', u'Привет!', create_bill(context))

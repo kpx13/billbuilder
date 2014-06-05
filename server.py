@@ -48,7 +48,7 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, req_handlers, **app_settings)
         
     def period_run(self):
-        print '*'
+        pass
 
 
 def main():
