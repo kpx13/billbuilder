@@ -15,7 +15,7 @@ def tmpl(url):
     return '%s/%s.html' % (url_base, url)
 
 @route('')
-class ContractorsList(BaseHandler):
+class List(BaseHandler):
     _model = ContactorDB
     
     @authorized
@@ -29,7 +29,7 @@ class ContractorsList(BaseHandler):
         self.render(tmpl('list'))
         
 @route('create')
-class ContractorsCreate(BaseHandler):
+class Create(BaseHandler):
     _model = ContactorDB
     
     @authorized
@@ -69,12 +69,19 @@ class ContractorsCreate(BaseHandler):
                 logging.error(u'С какого-то хуя форма контрагента не валидна: %s' % contractor_form.errors)
             
             con = ContactorDB.create_from_data(contractor_form.data)
-            
-            self.context.update({'title': u'Создание контрагента',
-                                'module_name': url_base,
-                                'requisites_form': requisites_form,
-                                'contractor_form': contractor_form,
-                                    })
-            self.render(tmpl('create'))
             logging.debug(u'Контрагент сохранен.')
+            self.redirect('/%s/full/%s' % (url_base, con['_id']))
 
+
+@route('full/(.*)')
+class Full(BaseHandler):
+    _model = ContactorDB
+
+    def get(self, _id):
+        con = ContactorDB.get_full(_id)
+        self.context.update({'title': u'Контрагент: %s' % 'asdf',
+                             'module_name': url_base,
+                             'item': con, 
+                             'requisites': RequisitesDB.get_full(con['requisites']), })
+        self.render(tmpl('full'))
+        

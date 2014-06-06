@@ -23,7 +23,7 @@
                         {% for i in items %}
                             <tr>
                                 <td><input type="checkbox"></td>
-                                <td><a href="#modal_{{ i._id }}" data-toggle="modal"><i class="fa fa-search-plus"></i></a></td>                                
+                                <td><a href="/{{ module_name }}/full/{{ i._id }}" ><i class="fa fa-search-plus"></i></a></td>                                
                                 {% for _, value in table_cols %}
                                     {% if i[ value ] %}
                                         <td>
