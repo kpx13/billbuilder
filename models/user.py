@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from bson.objectid import ObjectId
 from base import BaseDocument, connection, db_link_repr
 from counter import Counter
@@ -30,7 +32,11 @@ class UserDB(BaseDocument):
     
     @property
     def name(self):
-        return RequisitesDB.get_one({'_id': self['requisites']}, ['name'])['name']
+        try:
+            return RequisitesDB.get_one({'_id': self['requisites']}, ['name'])['name']
+        except:
+            logging.error(u'Ошибка с целостностью данных: нет реквизитов для user_id = %s' % self['_id'])
+            return 'ERROR'
 
     """ Вспомогательные функции для внутреннего использования """
     

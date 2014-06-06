@@ -35,7 +35,11 @@ class ContactorDB(BaseDocument):
     
     @property
     def name(self):
-        return RequisitesDB.get_one({'_id': self['requisites']}, ['name'])['name']
+        try:
+            return RequisitesDB.get_one({'_id': self['requisites']}, ['name'])['name']
+        except:
+            logging.error(u'Ошибка с целостностью данных: нет реквизитов для user_id = %s' % self['_id'])
+            return 'ERROR'
 
     """ Вспомогательные функции для внутреннего использования """
     
