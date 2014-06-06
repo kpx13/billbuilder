@@ -5,14 +5,11 @@ import pytils
 import xhtml2pdf.pisa as pisa
 import cStringIO as StringIO
 
-"""
-    items: список из {
-                            'name': 'наименование',     # str
-                            'unit': 'ед. изм.',        # str
-                            'count': 'кол-во',        # float/int
-                            'price': 'сумма',        # float
-                        }
-"""
+from models.requisites import RequisitesDB
+from models.contactor import ContactorDB
+from models.content import ContentDB
+from models.user import UserDB
+
 
 def get_sum(items):
     return sum([x['count']*x['price'] for x in items])
@@ -29,6 +26,12 @@ def create_context(sender, recipient, bill_num, date, items):
                 'items_sum': get_sum(items),
                 'items_sum_text': pytils.numeral.rubles(get_sum(items)).capitalize(),
             }
+
+def create_context_by_bill(bill):
+    sender_req = RequisitesDB.get_by_id(UserDB.get_by_id(bill['user'])['requisites'])
+    recipient_req = RequisitesDB.get_by_id(ContactorDB.get_by_id(bill['contractor'])['requisites'])
+    items = ContentDB.get_by_id(bill['content'])['items']
+    return create_context(sender_req, recipient_req, bill['number'], bill['date_created'], items)
 
 def create_bill(context, template_name='documents/bill.html'):
     return jinja_env.get_template(template_name).render(context)

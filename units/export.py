@@ -8,7 +8,7 @@ channel = connection.channel()
 channel.queue_declare(queue='hello')
     
 
-def send_mail_by_queue(email, subject, body):
+def send_mail_by_queue(email, subject, body, files=[]):
     channel.basic_publish(exchange='',
                           routing_key='hello',
                           body=json.dumps({ 'action': 'send_mail',
@@ -16,4 +16,5 @@ def send_mail_by_queue(email, subject, body):
                                                         'email': email,
                                                         'subject': subject,
                                                         'body': body,
+                                                        'files': files,
                                                     }}))

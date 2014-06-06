@@ -8,7 +8,9 @@ from models.bill import BillDB
 from models.content import ContentDB
 from models.user import UserDB
 from models.counter import Counter
+from units.documents import create_context_by_bill, create_pdf_bill
 from forms.db import RequisitesForm, BillContentForm
+from units.export import send_mail_by_queue
 from datetime import datetime
 import logging
 
@@ -52,8 +54,6 @@ class BillCreate(BaseHandler):
                                  })
             self.render(tmpl('create'))
         else:
-            from units.documents import create_context, create_bill, create_pdf_bill
-            
             req = RequisitesDB.create_from_data(recipient_form.data)
             contr = ContactorDB.create(self.user_id, req['_id'])['_id']
             items_from_form = bill_content_form.data['items']
@@ -66,12 +66,40 @@ class BillCreate(BaseHandler):
             date = datetime.now()
             sender_user = UserDB.get_one({'id': 1})
             bill = BillDB.create_simple(sender_user['_id'], contr, cont, bill_num, date)
+            logging.debug(u'Счёт сохранен.')
+            self.redirect('/%s/full/%s' % (url_base, bill['_id']))
             
-            context = create_context(RequisitesDB.get_by_id(sender_user['requisites']), 
-                                     req, bill_num, date, items)
-            
-            self.write(create_bill(context))
-            self.xsrf_token
-            self.flush()
-            create_pdf_bill(context, 'asdf.pdf')
-            
+
+@route('full/(.*)')
+class Full(BaseHandler):
+
+    def get(self, _id):
+        self.context.update(create_context_by_bill(BillDB.get_by_id(_id)))
+        self.render('documents/bill.html')
+        
+    def post(self, _id):
+        bill = BillDB.get_by_id(_id)
+        context = create_context_by_bill(bill)
+        action = self.get_argument('action')
+        
+        if action == 'pdf':
+            create_pdf_bill(context, 'media/bills/%s.pdf' % _id)
+            self.redirect('/media/bills/%s.pdf' % _id)
+            return
+        elif action == 'email':
+            email = self.get_argument('email_send_to')
+            send_mail_by_queue(email, u'Счёт № %s' % bill['number'], u'Привет. А вот и счёт!', ['/media/bills/%s.pdf' % _id])
+        else:
+            logging.error(u'Неизвестный экшн в создании счёта.')
+        
+        self.redirect('/%s/full/%s' % (url_base, bill['_id']))
+        
+        
+        """
+        
+        
+        self.context.update({'title': u'Контрагент: %s' % 'asdf',
+                             'module_name': url_base,
+                             'item': con, 
+                             'requisites': RequisitesDB.get_full(con['requisites']), })
+        self.render(tmpl('full'))"""
