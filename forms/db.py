@@ -80,7 +80,7 @@ class TaskForm(Form):
 
 class BillItemForm(Form):
     name = StringField(u'наименование')
-    count = FloatField(u'кол-во', default=0, description={'class': 'cart-item__amount'})
+    count = FloatField(u'кол-во', default=1, description={'class': 'cart-item__amount'})
     unit = StringField(u'ед. изм.')
     price = FloatField(u'цена', default=0, description={'class': 'cart-item__price'})
 

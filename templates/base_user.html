@@ -87,10 +87,13 @@
                     </div>
                 </header>
 
-                <section class="scrollable wrapper">
+                <section class="scrollable wrapper {% block wf %}w-f{% endblock %}">
                     {% block content %}
                     {% endblock %}
                 </section>
+                
+                {% block footer %}
+                {% endblock %}
             </section>
         </section>
         <!-- /.vbox -->

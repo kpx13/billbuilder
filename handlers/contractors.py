@@ -4,7 +4,7 @@ from tornado_routes import route
 from basehandler import BaseHandler, authorized
 from models.contactor import ContactorDB
 
-url_base = 'contractor'
+url_base = 'contractors'
 
 def tmpl(url):
     return '%s/%s.html' % (url_base, url)
