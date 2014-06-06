@@ -60,8 +60,6 @@ class Create(BaseHandler):
             contractor_data = self.request.arguments
             contractor_data.update({'user': [str(self.user_id)],
                                     'requisites': [str(req['_id'])]})
-            print 'CONTRACTOR DATA'
-            print contractor_data
             
             contractor_form = ContractorForm(contractor_data)
             
