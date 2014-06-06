@@ -1,4 +1,4 @@
-{% extends 'base_in.html' %}
+{% extends 'base_user.html' %}
 
 {% from 'forms/macros.html' import render_mini_field, render_tr_form %}
 
@@ -59,19 +59,20 @@
     
 {% endblock %}
 
+{% block top_panel %}
+{% endblock %}
+
+
 {% block content %}
 <form method="POST" role="form">
     {{ xsrf_form_html()|safe }}
     
-    <header class="header bg-white b-b clearfix">
-        <div class="row m-t-sm">
-            <div class="col-sm-6 m-b-xs">
-                <a href="#subNav" data-toggle="class:hide" class="btn btn-sm btn-info active"><i class="fa fa-caret-right text fa fa-large"></i><i class="fa fa-caret-left text-active fa fa-large"></i></a>
-                <button type='submit' class='btn btn-sm btn-success'><i class="fa fa-save"></i> Сохранить</button>
-            </div>
-        </div>
-    </header>
     <section class="scrollable wrapper">
+        <section class="panel clearfix bg-primary" style='width: 800px; margin: 0 auto'>
+            <section class="panel-body">
+                <button type='submit' class='btn btn-sm btn-success'><i class="fa fa-save"></i> Сохранить</button>
+            </section>
+        </section>
         <section class="panel" style='width: 800px; margin: 0 auto'>
             <section class="panel-body">
                 <table width="100%">

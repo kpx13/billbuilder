@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 from apscheduler.scheduler import Scheduler
-import atexit
 
 print 'START.'
+
 sched = Scheduler(standalone=True)
 
 def my_job(text):

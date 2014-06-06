@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <section class="hbox stretch">
+        <aside class="aside-sm nav-vertical bg-success" id="nav">
+            {% include 'main_panel.html' %}
+        </aside>
+        <!-- .vbox -->
+        <section id="content">
+
+                    <section class="vbox">
+                        <header class="header b-b clearfix bg-light dk">
+                            <div class="collapse navbar-collapse pull-in">
+                                <div class="navbar-left m-t-sm">
+                                    {% block top_panel %}
+                                    {% endblock %}
+                                </div>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="hidden-xs b-r">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-bell-o"></i>
+                                        <span class="badge up bg-info m-l-n-sm">2</span>
+                                        </a>
+                                        <section class="dropdown-menu animated fadeInUp input-s-lg">
+                                        <section class="panel bg-white">
+                                            <header class="panel-heading">
+                                            <strong>You have <span class="count-n">2</span> notifications</strong>
+                                            </header>
+                                            <div class="list-group">
+                                            <a href="#" class="media list-group-item">
+                                                <span class="pull-left thumb-sm">
+                                                <img src="/static/images/avatar.jpg" alt="John said" class="img-circle">
+                                                </span>
+                                                <span class="media-body block m-b-none">
+                                                Use awesome animate.css<br>
+                                                <small class="text-muted">28 Aug 13</small>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="media list-group-item">
+                                                <span class="media-body block m-b-none">
+                                                1.0 initial released<br>
+                                                <small class="text-muted">27 Aug 13</small>
+                                                </span>
+                                            </a>
+                                            </div>
+                                            <footer class="panel-footer text-sm">
+                                            <a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
+                                            <a href="#">See all the notifications</a>
+                                            </footer>
+                                        </section>
+                                        </section>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="thumb-sm avatar pull-left m-t-n-xs m-r-xs">
+                                            <img src="/static/images/avatar.jpg">
+                                        </span>
+                                        {{ user.name }}<b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu animated fadeInLeft">
+                                            
+                                            <li>
+                                                <a href="/user/profile">Профиль</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="badge bg-danger pull-right">3</span> Уведомления
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Настройки</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Помощь</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/logout/">Выход</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </header>
+                        
+                        <script src="/static/lib/tagmanager/bootstrap-tagmanager.js"></script>
+                        <script src="/static/js/select2/select2.min.js" cache="false"></script>
+                        
+                        <section class="scrollable wrapper">
+                            {% block content %}
+                            {% endblock %}
+                        </section>
+                        
+                      
+                    </section>
+ 
+        </section>
+        <!-- /.vbox -->
+    </section>
+{% endblock %}
