@@ -2,6 +2,7 @@
 
 from base import BaseDocument, connection, db_bool_repr, db_link_repr
 from bson.objectid import ObjectId
+from counter import Counter
 import datetime
 
 @connection.register
@@ -17,6 +18,7 @@ class BillDB(BaseDocument):
                     'template': ObjectId,   # шаблон, если есть
                     'task': ObjectId,       # задание, если есть
                     'content': ObjectId,    # содержимое
+                    'number': int,          # номер счёта
                     'date_created': datetime.datetime,  # дата, когда был создан (и отправлен)
                     'send': bool,            # отправлен
                     'paid': bool,            # оплачен
@@ -26,6 +28,17 @@ class BillDB(BaseDocument):
         from content import ContentDB
         return ContentDB.get_by_id(self['content']).name
     
+    @staticmethod
+    def create_simple(user_id, contractor_id, content_id, number, date_created):
+        b = connection.BillDB()
+        b['user'] = user_id
+        b['contractor'] = contractor_id
+        b['content'] = content_id
+        b['number'] = number
+        b['date_created'] = date_created
+        b['id'] = Counter.insert('bill')
+        b.save()
+        return b
     
     """ Вспомогательные функции для внутреннего использования """
     

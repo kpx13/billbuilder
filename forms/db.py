@@ -85,7 +85,7 @@ class BillItemForm(Form):
     price = FloatField(u'цена', default=0, description={'class': 'cart-item__price'})
 
 class BillContentForm(Form):
-    items = FieldList(FormField(BillItemForm), min_entries=3, max_entries=100)
+    items = FieldList(FormField(BillItemForm), min_entries=10, max_entries=100)
 
 class BillForm(Form):
     user = SelectField(u'Юзер', choices=UserDB.get_for_select(), validators=[REQ])

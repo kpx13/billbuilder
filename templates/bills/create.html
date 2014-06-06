@@ -1,4 +1,8 @@
-{% extends 'base_user.html' %}
+{% if user %}
+    {% extends 'base_user.html' %}
+{% else %}
+    {% extends 'base.html' %}
+{% endif %}
 
 {% from 'forms/macros.html' import render_mini_field, render_tr_form %}
 
@@ -54,6 +58,12 @@
             }
 
             sumCart();
+        });
+        
+        $('a#add_row').click(function(){ 
+            hidden_items = $('.cart-item.hidden');
+            if (hidden_items.length > 1) {hidden_items.first().removeClass('hidden')}
+            else {$('a#add_row').addClass('hidden')}
         });
     </script>
     
@@ -193,9 +203,9 @@
                         <th style="width:27mm;">Сумма</th>
                     </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                         {% for i in bill_content.items %}
-                            <tr class="cart-item">
+                            <tr class="cart-item{% if not loop.first %} hidden{% endif %}" id='cart-item-{{ loop.index }}' >
                                 <td align="center">{{ loop.index }}</td>
                                 {{ render_tr_form(i) }}
                                 <td><span class="cart-item__price_all"></span>&nbsp;p.</td>
@@ -203,6 +213,8 @@
                         {% endfor %}
                     </tbody>
                     </table>
+                    <a id='add_row' class='btn btn-xs btn-info'><i class="fa fa-plus"></i> Добавить поле</a>
+                    
 
                 <table border="0" width="100%" cellpadding="1" cellspacing="1">
                     <tr>

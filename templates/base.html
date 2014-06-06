@@ -30,35 +30,10 @@
     
     <body {% block bodyextend %} {% endblock %}>
         {% block body %}
-            <div class="header navbar">
-                <div class="container">
-                    <a class="navbar-brand" href="/"></a>
-                    <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">BILLder</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav pull-right">
-                    {% if user_id %}
-                        <li><a href="{{ reverse_url('logout') }}">Выход</a></li>
-                    {% else %}
-                        <li><a id="login_btn" href="{{ reverse_url('login') }}">Вход</a></li>
-                        <li><a id="register_btn" href="{{ reverse_url('register') }}">Регистрация</a></li>
-                    {% endif %}
-                    </ul>
-                </div>
-            </div>
-            <div class="container">
-                {% for type, text in alerts %}
-                    <div class="alert alert-{{ type }}">
-                        {{ text }}
-                    </div>
-                {% endfor %}
-                
-                {% block content %}
-                    <p>Заглушка.</p>
-                {% endblock content %}
-            </div> <!-- /container -->
+            {% block content %}
+            {% endblock%}
         {% endblock %}
-        
+            
         {% block dialogs %}
         {% endblock %}
         

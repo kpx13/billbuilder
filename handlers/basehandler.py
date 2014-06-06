@@ -43,9 +43,7 @@ class BaseHandler(tornado.web.RequestHandler, SessionMixin):
         #statprof.display(open('reports/profiling/%s' % self.__class__.__name__, 'w'))
         self.__duration_time = (time.time() - self.__start_time) * 1000  # msec
         open('reports/profiling/handlers', 'a').write('%24s%16.3f\n' % (self.__class__.__name__, self.__duration_time))
-    
-    def get_error_html(self, status_code, **kwargs):
-        self.write("<html><body><h1>404!</h1></body></html>")
+
     
     def render(self, template):
         self.context.update(self.get_template_namespace())

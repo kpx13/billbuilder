@@ -40,6 +40,11 @@ class Counter(BaseDocument):
     def reset_key(key):
         """ Сброс ключа """
         connection.Counter({'_id': key, 'seq': 1}).save()
+    
+    @staticmethod
+    def next_key(key):
+        """ Индекс следующего элемента """
+        return connection.Counter.find_one({'_id': key})['seq']
         
     @staticmethod    
     def load_testdata():
