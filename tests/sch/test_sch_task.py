@@ -5,7 +5,8 @@ import datetime
 import logging
 
 from scheduler.sch_task import SchTaskDB
-from scheduler.main import create_event_from_task, get_tasks
+from scheduler.sch_event import SchEventDB
+from scheduler.main import get_tasks, create_events
 
 """
                     'action': unicode,
@@ -16,12 +17,13 @@ from scheduler.main import create_event_from_task, get_tasks
                     'time_m': int,
 """
 
-TIMEDELTA = datetime.timedelta(hours=2)
+TIMEDELTA = datetime.timedelta(hours=10)
 
 class SchTaskDBTest(unittest.TestCase):
 
     def setUp(self):
         SchTaskDB.delete_all()
+        SchEventDB.delete_all()
 
     def test_create(self):
         SchTaskDB.delete_all()
@@ -73,7 +75,7 @@ class SchTaskDBTest(unittest.TestCase):
         SchTaskDB.delete_all()
         SchTaskDB.create_from_data({
             'action': 'test_act_1',
-            'data': {},
+            'data': {'key': 'value', 'list': ['1', '2', ['3', '4']], 'dict': {'a': 'a', 'b': 'b'}},
             'date_key': 1,
             'date_value': [],
             'time_h': hour_now,
@@ -109,11 +111,14 @@ class SchTaskDBTest(unittest.TestCase):
         assert SchTaskDB.get_count() == 4
 
         # ищем все события, которые должны произойти плюс минус TIMEDELTA от данного момента
-        assert len(get_tasks(datetime_now - TIMEDELTA, datetime_now + TIMEDELTA)) == 4
+        tasks = get_tasks(datetime_now - TIMEDELTA, datetime_now + TIMEDELTA)
+        assert len(tasks) == 4
+        create_events(datetime_now - TIMEDELTA, datetime_now + TIMEDELTA)
+        assert SchEventDB.get_count() == 4
 
-
+        create_events(datetime_now - TIMEDELTA, datetime_now + TIMEDELTA)
+        assert SchEventDB.get_count() == 4
 
 
     def tearDown(self):
-        #SchTaskDB.delete_all()
         pass
