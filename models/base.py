@@ -105,11 +105,11 @@ class BaseDocument(Document):
             logging.warning(u'Ключ %s не обнаружен в skeleton. Класс %s' % ('user', cls.__name__))
     
     @classmethod
-    def get_cursor(cls, fields=None):
+    def get_cursor(cls, filter={}, fields=None):
         if fields:
-            return connection[cls.__name__].find({}, fields=fields)
+            return connection[cls.__name__].find(filter, fields=fields)
         else:
-            return connection[cls.__name__].find()
+            return connection[cls.__name__].find(filter)
         
     @classmethod
     def get_one(cls, filter={}, fields=None):

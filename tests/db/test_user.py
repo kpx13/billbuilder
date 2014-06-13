@@ -10,15 +10,15 @@ from models.account import AccountDB
 class UserTest(unittest.TestCase):
                 
     def test_account(self):        
-        for curr in AccountDB.get_cursor(['user']):
+        for curr in AccountDB.get_cursor(fields=['user']):
             if curr['user']:
                 assert UserDB.exists(curr['user'])           
     
     def test_r(self):
-        for curr in UserDB.get_cursor(['requisites']):
+        for curr in UserDB.get_cursor(fields=['requisites']):
             assert RequisitesDB.exists(curr['requisites'])
             
     def test_em(self):
-        for curr in UserDB.get_cursor(['emailsettings']):
+        for curr in UserDB.get_cursor(fields=['emailsettings']):
             assert EmailSettingsDB.exists(curr['emailsettings'])
 
