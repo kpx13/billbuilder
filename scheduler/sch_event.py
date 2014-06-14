@@ -23,12 +23,12 @@ class SchEventDB(BaseDocument):
         return self['_id']
 
     @staticmethod
-    def create_or_update(task, base_datetime, status='planned'):
-        new_datetime = base_datetime.replace(hour=task['time_h'], minute=task['time_m'])
+    def create_or_update(task, new_datetime, status='planned'):
+        "Если обновляется, то возвращается None, иначе - _id нового события"
         alr = SchEventDB.get_one({'task': task['_id'], 'datetime': new_datetime}, ['task', 'datetime'])
         if alr:
             alr['status'] = status
-            return alr
+            return None
         else:
             a = connection.SchEventDB()
             a['task'] = task['_id']
@@ -37,9 +37,13 @@ class SchEventDB(BaseDocument):
             a['datetime'] = new_datetime
             a['status'] = status
             a.save()
-            return a
+            return a['_id']
 
     """ Вспомогательные функции для внутреннего использования """
+
+    def set_sent(self):
+        self['status'] = 'sent'
+        self.save()
 
     @staticmethod
     def get_table_cols():

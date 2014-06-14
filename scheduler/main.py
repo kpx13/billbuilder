@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 from sch_task import SchTaskDB
-from sch_event import SchEventDB
-import logging
 
 EPS = timedelta(microseconds=1)
-
 
 def _get_tasks_daily(time_from_h, time_from_m, time_to_h, time_to_m):
     return SchTaskDB.get_cursor({'date_key': 1,
@@ -49,7 +46,6 @@ def _get_tasks_one_hour(datetime_from, datetime_to):
 
 def get_tasks(datetime_from, datetime_to):
     # Здесь промежуток должен быть в пределах 24 часов.
-    # TODO тесты на разные промежутки
 
     if datetime_from.day == datetime_to.day and datetime_from.hour == datetime_to.hour:
         # промежуток находится в пределах одного часа
@@ -72,13 +68,6 @@ def get_tasks(datetime_from, datetime_to):
 
     return res
 
-def _create_events_one_day(tasks, year, month, day):
-    # создаёт задания в приделах одного дня
-    base_datetime = datetime(year=year, month=month, day=day)
-    for t in tasks:
-        SchEventDB.create_or_update(t, base_datetime, 'planned')
-
-
 def split_datetime_range_by_day(datetime_from, datetime_to):
     # функция разбивает промежуток времени на 2 дня, если это необходимо,
     # можно с лёгкостью обобщить на произвольные даты.
@@ -92,9 +81,12 @@ def split_datetime_range_by_day(datetime_from, datetime_to):
                              day=datetime_from.day) + timedelta(days=1)
         return [(datetime_from, datetime_jump - EPS), (datetime_jump, datetime_to)]
 
-def create_events(datetime_from, datetime_to):
-    # Здесь промежуток должен быть в пределах 24 часов.
-    # TODO тесты на разные промежутки
-    for curr_from, curr_to in split_datetime_range_by_day(datetime_from, datetime_to):
-        tasks = get_tasks(curr_from, curr_to)
-        _create_events_one_day(tasks, curr_from.year, curr_from.month, curr_from.day)
+def get_timedelta_local_and_utc():
+    "Чтобы получить локальное время, надо к UTC прибавить значение этой ф-ции"
+    from dateutil import tz
+    utcnow = datetime.utcnow()
+    from_zone = tz.tzutc()
+    to_zone = tz.tzlocal()
+    utcnow = utcnow.replace(tzinfo=from_zone)
+    central = utcnow.astimezone(to_zone).replace(tzinfo=from_zone)
+    return central - utcnow
